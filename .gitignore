@@ -5,6 +5,9 @@ classroom_roster.csv
 students.txt
 groups.txt
 
+# Visual Studio Code
+.vscode/launch.json
+
 # Maven target directory
 /target/
 
@@ -66,4 +69,3 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-.vscode/launch.json
