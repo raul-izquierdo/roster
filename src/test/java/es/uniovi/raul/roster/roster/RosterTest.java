@@ -2,12 +2,12 @@ package es.uniovi.raul.roster.roster;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.Reader;
-import java.io.StringReader;
+import java.io.*;
 import java.util.List;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import es.uniovi.raul.roster.model.Student;
 import es.uniovi.raul.roster.naming.ParenthesisStrategy;
@@ -51,5 +51,18 @@ class RosterTest {
         String onlyHeader = "identifier,github_username,github_id,name\n";
         Exception ex = assertThrows(Roster.InvalidRosterFormatException.class, () -> loadCsv(onlyHeader));
         assertTrue(ex.getMessage().toLowerCase().contains("no students"));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            ", johnd,1,John Doe",
+            "\"\", johnd,1,John Doe"
+    })
+    @DisplayName("load(Reader) throws when no identifier present")
+    void noIdentifierThrows(String row) {
+        String header = "identifier,github_username,github_id,name\n";
+        String csv = header + row + "\n";
+        Exception ex = assertThrows(Roster.InvalidRosterFormatException.class, () -> loadCsv(csv));
+        assertTrue(ex.getMessage().toLowerCase().contains("identifier"));
     }
 }

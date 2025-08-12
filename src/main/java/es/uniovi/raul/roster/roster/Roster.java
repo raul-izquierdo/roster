@@ -8,7 +8,7 @@ import java.util.*;
 import org.apache.commons.csv.*;
 
 import es.uniovi.raul.roster.model.Student;
-import es.uniovi.raul.roster.naming.*;
+import es.uniovi.raul.roster.naming.NamingStrategy;
 
 /**
  * The Roster is the list of students in a GH Classroom.
@@ -32,6 +32,7 @@ public class Roster {
 
     public static List<Student> load(Reader reader, NamingStrategy namingStrategy)
             throws IOException, InvalidRosterFormatException {
+
         List<Student> roster = new ArrayList<>();
 
         try (CSVParser parser = new CSVParser(reader,
@@ -41,7 +42,7 @@ public class Roster {
 
             for (CSVRecord csvRecord : parser) {
 
-                String rosterId = csvRecord.get("identifier");
+                String rosterId = getValue(csvRecord, "identifier");
 
                 var studentName = namingStrategy.extractStudentName(rosterId);
                 var group = namingStrategy.extractGroup(rosterId);
@@ -65,6 +66,32 @@ public class Roster {
             if (!parser.getHeaderMap().containsKey(header))
                 throw new InvalidRosterFormatException("CSV does not contain '" + header + "' column.");
 
+    }
+
+    private static String getValue(CSVRecord csvRecord, String column) throws InvalidRosterFormatException {
+
+        var value = findValue(csvRecord, column);
+
+        if (value.isEmpty())
+            throw new InvalidRosterFormatException(format("Record #%d: '%s' -> Student identifier cannot be blank",
+                    csvRecord.getRecordNumber(), join(", ", csvRecord)));
+
+        return value.get();
+    }
+
+    private static Optional<String> findValue(CSVRecord csvRecord, String column) {
+
+        try {
+            String value = csvRecord.get(column);
+
+            if (value == null || value.isBlank()) // For example `,a`
+                return Optional.empty();
+
+            return Optional.of(value);
+
+        } catch (ArrayIndexOutOfBoundsException e) { // Column does not exist
+            return Optional.empty();
+        }
     }
 
     public static class InvalidRosterFormatException extends Exception {
