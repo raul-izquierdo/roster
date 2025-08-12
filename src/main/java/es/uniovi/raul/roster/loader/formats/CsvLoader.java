@@ -25,15 +25,10 @@ public final class CsvLoader implements FormatLoader {
 
             for (CSVRecord csvRecord : parser) {
 
-                var studentName = getValue(csvRecord, 0);
+                String studentName = getValue(csvRecord, 0);
+                Optional<String> group = findValue(csvRecord, 1);
 
-                if (studentName.isEmpty())
-                    throw new InvalidStudentFormatException(format("Record #%d: '%s' -> Student name cannot be blank",
-                            csvRecord.getRecordNumber(), join(", ", csvRecord)));
-
-                var group = getValue(csvRecord, 1);
-
-                builder.buildStudent(studentName.get(), group);
+                builder.buildStudent(studentName, group);
             }
 
         } catch (UncheckedIOException e) { // Handle the unchecked exception from CSV parsing
@@ -41,7 +36,19 @@ public final class CsvLoader implements FormatLoader {
         }
     }
 
-    private Optional<String> getValue(CSVRecord csvRecord, int column) {
+    private String getValue(CSVRecord csvRecord, int column) throws InvalidStudentFormatException {
+
+        var value = findValue(csvRecord, column);
+
+        if (value.isEmpty())
+            throw new InvalidStudentFormatException(
+                    format("Record #%d: '%s' -> column '%d' (zero based) cannot be blank",
+                            csvRecord.getRecordNumber(), join(", ", csvRecord), column));
+
+        return value.get();
+    }
+
+    private Optional<String> findValue(CSVRecord csvRecord, int column) {
 
         try {
             String value = csvRecord.get(column);

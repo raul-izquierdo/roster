@@ -36,7 +36,7 @@ class StudentsTest {
     @DisplayName("load(InputStream, CSV) throws when student name is blank")
     void loadCsvBlankNameThrows(String content) {
         Exception ex = assertThrows(InvalidStudentFormatException.class, () -> loadCsv(content));
-        assertTrue(ex.getMessage().toLowerCase().contains("student name"));
+        assertTrue(ex.getMessage().toLowerCase().contains("column '0'"));
     }
 
     @Test
