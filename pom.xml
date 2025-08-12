@@ -32,6 +32,7 @@
                     <mainClass>es.uniovi.raul.roster.main.Main</mainClass>
                 </configuration>
             </plugin>
+
             <!-- Build a runnable fat JAR that properly merges META-INF/services (needed by Apache
             POI) -->
             <plugin>
@@ -55,6 +56,30 @@
                                     <mainClass>es.uniovi.raul.roster.main.Main</mainClass>
                                 </transformer>
                             </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Delete the backup original-*.jar left by shade -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>remove-shade-backup</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <delete quiet="true">
+                                    <fileset dir="${project.build.directory}"
+                                        includes="original-*.jar" />
+                                </delete>
+                            </target>
                         </configuration>
                     </execution>
                 </executions>
