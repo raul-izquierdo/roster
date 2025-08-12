@@ -26,7 +26,7 @@ public class ArgumentsParser {
 
         final CommandLine picocli = new CommandLine(arguments)
                 .setCaseInsensitiveEnumValuesAllowed(true)
-                .setColorScheme(CommandLine.Help.defaultColorScheme(Help.Ansi.ON))
+                // .setColorScheme(CommandLine.Help.defaultColorScheme(Help.Ansi.ON))
                 .setSeparator(" "); // Use space (`-g file`) instead of "=" (`-g=file`);
 
         try {
