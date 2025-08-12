@@ -73,8 +73,8 @@ public class Roster {
         var value = findValue(csvRecord, column);
 
         if (value.isEmpty())
-            throw new InvalidRosterFormatException(format("Record #%d: '%s' -> Student identifier cannot be blank",
-                    csvRecord.getRecordNumber(), join(", ", csvRecord)));
+            throw new InvalidRosterFormatException(format("Record #%d: '%s' -> column '%s' cannot be blank",
+                    csvRecord.getRecordNumber(), join(", ", csvRecord), column));
 
         return value.get();
     }
