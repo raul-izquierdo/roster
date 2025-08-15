@@ -4,19 +4,19 @@ import java.io.*;
 import java.util.*;
 
 import es.uniovi.raul.roster.model.Student;
-import es.uniovi.raul.roster.naming.*;
+import es.uniovi.raul.roster.naming.NamingStrategy;
 
 /**
  * Entry point for loading student data from various file formats.
  */
-public class Students {
+public class StudentsLoader {
 
-    public static List<Student> load(String fileName, FileFormat format, RosterNamingStrategy namingStrategy)
+    public static List<Student> load(String fileName, FileFormat format)
             throws InvalidStudentFormatException, IOException {
 
         try (InputStream inputStream = new FileInputStream(fileName)) {
 
-            return load(inputStream, format, namingStrategy);
+            return load(inputStream, format);
 
         } catch (InvalidStudentFormatException e) {
             throw new InvalidStudentFormatException(String.format(
@@ -25,12 +25,12 @@ public class Students {
         }
     }
 
-    public static List<Student> load(InputStream inputStream, FileFormat format, RosterNamingStrategy namingStrategy)
+    public static List<Student> load(InputStream inputStream, FileFormat format)
             throws InvalidStudentFormatException, IOException {
 
         FormatLoader loader = format.createFormatLoader();
 
-        var builder = new ListBuilder(namingStrategy);
+        var builder = new ListBuilder();
         loader.load(inputStream, builder);
 
         var studentsList = builder.getStudents();
@@ -45,11 +45,6 @@ public class Students {
 
 class ListBuilder implements StudentBuilder {
     private List<Student> students;
-    private RosterNamingStrategy namingStrategy;
-
-    ListBuilder(RosterNamingStrategy namingStrategy) {
-        this.namingStrategy = namingStrategy;
-    }
 
     @Override
     public void start() {
@@ -62,7 +57,7 @@ class ListBuilder implements StudentBuilder {
         if (group.isEmpty()) // If no group is still assigned, skip this student
             return;
 
-        var rosterId = namingStrategy.generateRosterId(name, group.get());
+        var rosterId = NamingStrategy.generateRosterId(name, group.get());
 
         students.add(new Student(name, group.get(), rosterId));
     }

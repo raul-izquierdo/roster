@@ -13,9 +13,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import es.uniovi.raul.roster.model.Student;
-import es.uniovi.raul.roster.naming.ParenthesisStrategy;
 
-class StudentsExcelTest {
+class StudentsLoaderExcelTest {
 
     private byte[] excelWithRows(String[][] rows) throws Exception {
         try (var wb = new XSSFWorkbook()) {
@@ -36,7 +35,7 @@ class StudentsExcelTest {
 
     private List<Student> loadExcel(byte[] bytes) throws Exception {
         InputStream is = new java.io.ByteArrayInputStream(bytes);
-        return Students.load(is, FileFormat.EXCEL, new ParenthesisStrategy());
+        return StudentsLoader.load(is, FileFormat.EXCEL);
     }
 
     @Test

@@ -7,22 +7,22 @@ import java.util.*;
 
 import org.apache.commons.csv.*;
 
-import es.uniovi.raul.roster.model.Student;
-import es.uniovi.raul.roster.naming.RosterNamingStrategy;
+import es.uniovi.raul.roster.model.*;
+import es.uniovi.raul.roster.naming.NamingStrategy;
 
 /**
  * The Roster is the list of students in a GH Classroom.
  * It can be downloaded in CSV format from the classroom.
  * This class loads that CSV file.
  */
-public class Roster {
+public class RosterLoader {
 
-    public static List<Student> load(String rosterFile, RosterNamingStrategy namingStrategy)
+    public static Roster load(String rosterFile)
             throws IOException, InvalidRosterFormatException {
 
         try (var reader = new java.io.FileReader(rosterFile)) {
 
-            return load(reader, namingStrategy);
+            return load(reader);
 
         } catch (InvalidRosterFormatException e) {
             throw new InvalidRosterFormatException(
@@ -30,10 +30,10 @@ public class Roster {
         }
     }
 
-    public static List<Student> load(Reader reader, RosterNamingStrategy namingStrategy)
+    public static Roster load(Reader reader)
             throws IOException, InvalidRosterFormatException {
 
-        List<Student> roster = new ArrayList<>();
+        List<Student> students = new ArrayList<>();
 
         try (CSVParser parser = new CSVParser(reader,
                 CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).build())) {
@@ -44,17 +44,17 @@ public class Roster {
 
                 String rosterId = getValue(csvRecord, "identifier");
 
-                var studentName = namingStrategy.extractStudentName(rosterId);
-                var group = namingStrategy.extractGroup(rosterId);
+                var studentName = NamingStrategy.extractStudentName(rosterId);
+                var group = NamingStrategy.extractGroup(rosterId);
 
-                roster.add(new Student(studentName, group, rosterId));
+                students.add(new Student(studentName, group, rosterId));
             }
         }
 
-        if (roster.isEmpty())
+        if (students.isEmpty())
             throw new InvalidRosterFormatException("No students found in the roster file. Please check the content.");
 
-        return roster;
+        return new Roster(students);
     }
 
     // Checks that the header is exactly this four columnos (no more, no less): "identifier","github_username","github_id","name"

@@ -9,11 +9,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class GroupsTest {
+class GroupsLoaderTest {
 
     private List<String> loadFrom(String content) throws Exception {
         Reader reader = new StringReader(content);
-        return Groups.load(reader);
+        return GroupsLoader.load(reader);
     }
 
     @ParameterizedTest
@@ -32,7 +32,7 @@ class GroupsTest {
     @ValueSource(strings = { ",A\n", "\n", ",\n01\n" })
     @DisplayName("load(Reader) throws when a record has blank group id or file is empty")
     void loadInvalidOrEmpty(String content) {
-        Exception ex = assertThrows(Groups.InvalidGroupFormatException.class, () -> loadFrom(content));
+        Exception ex = assertThrows(GroupsLoader.InvalidGroupFormatException.class, () -> loadFrom(content));
         assertNotNull(ex.getMessage());
     }
 }

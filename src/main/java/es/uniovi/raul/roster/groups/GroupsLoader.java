@@ -12,7 +12,7 @@ import org.apache.commons.csv.CSVRecord;
 /**
  * Loads the groups that are assgined to the teacher. Groups not present in this file will not be considered.
  */
-public class Groups {
+public class GroupsLoader {
 
     public static List<String> load(String filePath) throws IOException, InvalidGroupFormatException {
 

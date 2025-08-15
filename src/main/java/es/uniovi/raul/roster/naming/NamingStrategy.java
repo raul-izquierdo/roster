@@ -2,8 +2,10 @@ package es.uniovi.raul.roster.naming;
 
 /**
  * Implements a naming strategy where the roster ID is formatted as "name (group)".
+ *
+ * There is no need for a proper Strategy Pattern here.
  */
-public final class ParenthesisStrategy implements RosterNamingStrategy {
+public final class NamingStrategy {
 
     private static final String OPEN = " ("; // Note: Leading space is intentional to match the format "name (group)"
     private static final String CLOSE = ")";
@@ -18,8 +20,7 @@ public final class ParenthesisStrategy implements RosterNamingStrategy {
      * @param group The student's group
      * @return A string representing the roster ID in the format "name (group)"
      */
-    @Override
-    public String generateRosterId(String name, String group) {
+    public static String generateRosterId(String name, String group) {
         if (name == null || name.isBlank())
             throw new IllegalArgumentException("Name must not be null or empty");
         if (group == null || group.isBlank())
@@ -28,16 +29,14 @@ public final class ParenthesisStrategy implements RosterNamingStrategy {
         return name + OPEN + group + CLOSE;
     }
 
-    @Override
-    public String extractStudentName(String rosterId) {
+    public static String extractStudentName(String rosterId) {
         checkRosterIdStructure(rosterId);
 
         int openIdx = rosterId.lastIndexOf(OPEN); // No trim() needed as OPEN has a leading space
         return rosterId.substring(0, openIdx);
     }
 
-    @Override
-    public String extractGroup(String rosterId) {
+    public static String extractGroup(String rosterId) {
         checkRosterIdStructure(rosterId);
 
         int openIdx = rosterId.lastIndexOf(OPEN);
@@ -45,7 +44,7 @@ public final class ParenthesisStrategy implements RosterNamingStrategy {
         return rosterId.substring(openIdx + OPEN.length(), closeIdx);
     }
 
-    private void checkRosterIdStructure(String rosterId) {
+    private static void checkRosterIdStructure(String rosterId) {
         int openIdx = rosterId.lastIndexOf(OPEN);
         int closeIdx = rosterId.lastIndexOf(CLOSE);
 
@@ -60,7 +59,7 @@ public final class ParenthesisStrategy implements RosterNamingStrategy {
             throwException(rosterId);
     }
 
-    private void throwException(String rosterId) {
+    private static void throwException(String rosterId) {
         String expectedFormat = "'student name (group)'";
         throw new IllegalArgumentException(
                 "Invalid roster ID '" + rosterId + "'. Expected format: " + expectedFormat);

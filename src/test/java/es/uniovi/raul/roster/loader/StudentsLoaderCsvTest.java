@@ -13,13 +13,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import es.uniovi.raul.roster.model.Student;
-import es.uniovi.raul.roster.naming.HyphenSeparator;
 
-class StudentsTest {
+class StudentsLoaderCsvTest {
 
     private List<Student> loadCsv(String content) throws Exception {
         InputStream is = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
-        return Students.load(is, FileFormat.CSV, new HyphenSeparator());
+        return StudentsLoader.load(is, FileFormat.CSV);
     }
 
     @Test
@@ -27,8 +26,8 @@ class StudentsTest {
     void loadCsvHappyPath() throws Exception {
         var list = loadCsv("John Doe,01\nJane Roe,02\nNoGroup,\nAlsoNoGroup\n");
         assertEquals(2, list.size());
-        assertEquals(new Student("John Doe", "01", "John Doe - 01"), list.get(0));
-        assertEquals(new Student("Jane Roe", "02", "Jane Roe - 02"), list.get(1));
+        assertEquals(new Student("John Doe", "01", "John Doe (01)"), list.get(0));
+        assertEquals(new Student("Jane Roe", "02", "Jane Roe (02)"), list.get(1));
     }
 
     @ParameterizedTest

@@ -10,13 +10,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import es.uniovi.raul.roster.model.Student;
-import es.uniovi.raul.roster.naming.ParenthesisStrategy;
 
-class RosterTest {
+class RosterLoaderTest {
 
     private List<Student> loadCsv(String content) throws Exception {
-        Reader r = new StringReader(content);
-        return Roster.load(r, new ParenthesisStrategy());
+        Reader roster = new StringReader(content);
+        return RosterLoader.load(roster).getStudents().toList();
     }
 
     @Test
@@ -41,7 +40,7 @@ class RosterTest {
     @DisplayName("load(Reader) throws for invalid header (missing column)")
     void invalidHeaderThrows() {
         String bad = "identifier,github_username,github_id\nJohn Doe (01),johnd,1\n";
-        Exception ex = assertThrows(Roster.InvalidRosterFormatException.class, () -> loadCsv(bad));
+        Exception ex = assertThrows(RosterLoader.InvalidRosterFormatException.class, () -> loadCsv(bad));
         assertTrue(ex.getMessage().toLowerCase().contains("csv"));
     }
 
@@ -49,7 +48,7 @@ class RosterTest {
     @DisplayName("load(Reader) throws when no students present")
     void emptyRosterThrows() {
         String onlyHeader = "identifier,github_username,github_id,name\n";
-        Exception ex = assertThrows(Roster.InvalidRosterFormatException.class, () -> loadCsv(onlyHeader));
+        Exception ex = assertThrows(RosterLoader.InvalidRosterFormatException.class, () -> loadCsv(onlyHeader));
         assertTrue(ex.getMessage().toLowerCase().contains("no students"));
     }
 
@@ -62,7 +61,7 @@ class RosterTest {
     void noIdentifierThrows(String row) {
         String header = "identifier,github_username,github_id,name\n";
         String csv = header + row + "\n";
-        Exception ex = assertThrows(Roster.InvalidRosterFormatException.class, () -> loadCsv(csv));
+        Exception ex = assertThrows(RosterLoader.InvalidRosterFormatException.class, () -> loadCsv(csv));
         assertTrue(ex.getMessage().toLowerCase().contains("identifier"));
     }
 }
