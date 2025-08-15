@@ -1,6 +1,11 @@
 package es.uniovi.raul.roster.naming;
 
-public interface NamingStrategy {
+/**
+ * Interface generating the id of a student in the roster based on their name and group.
+ *
+ * Strategy pattern
+ */
+public interface RosterNamingStrategy {
 
     /**
      * Generates a roster ID based on the student's name and group.

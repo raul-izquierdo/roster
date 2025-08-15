@@ -25,7 +25,7 @@ public class Main {
 
         PrintStream printer = System.out;
         // NamingStrategy namingStrategy = new HyphenSeparator();
-        NamingStrategy namingStrategy = new ParenthesisStrategy();
+        RosterNamingStrategy namingStrategy = new ParenthesisStrategy();
 
         try {
             switch (arguments.command) {
@@ -42,13 +42,13 @@ public class Main {
 
     }
 
-    public static void createRoster(Arguments arguments, NamingStrategy namingStrategy, PrintStream printer)
+    public static void createRoster(Arguments arguments, RosterNamingStrategy namingStrategy, PrintStream printer)
             throws IOException, InvalidStudentFormatException, InvalidGroupFormatException {
 
         printNewStudents(getTeacherStudents(arguments, namingStrategy), printer);
     }
 
-    public static void updateRoster(Arguments arguments, NamingStrategy namingStrategy, PrintStream printer)
+    public static void updateRoster(Arguments arguments, RosterNamingStrategy namingStrategy, PrintStream printer)
             throws IOException, InvalidStudentFormatException, InvalidGroupFormatException,
             InvalidRosterFormatException {
 
@@ -167,7 +167,7 @@ public class Main {
     private static record GroupChange(Student old, Student updated) {
     }
 
-    public static List<Student> getTeacherStudents(Arguments arguments, NamingStrategy namingStrategy)
+    public static List<Student> getTeacherStudents(Arguments arguments, RosterNamingStrategy namingStrategy)
             throws IOException, InvalidStudentFormatException, InvalidGroupFormatException {
 
         List<Student> students = Students.load(arguments.studentsFile, arguments.format, namingStrategy);

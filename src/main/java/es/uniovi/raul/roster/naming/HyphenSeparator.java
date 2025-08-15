@@ -6,7 +6,7 @@ package es.uniovi.raul.roster.naming;
 
 // There is no need for a proper Strategy pattern here, as there won't be multiple strategies to choose from.
 
-public final class HyphenSeparator implements NamingStrategy {
+public final class HyphenSeparator implements RosterNamingStrategy {
 
     private static final String SEPARATOR = " - ";
 

@@ -11,7 +11,7 @@ import es.uniovi.raul.roster.naming.*;
  */
 public class Students {
 
-    public static List<Student> load(String fileName, FileFormat format, NamingStrategy namingStrategy)
+    public static List<Student> load(String fileName, FileFormat format, RosterNamingStrategy namingStrategy)
             throws InvalidStudentFormatException, IOException {
 
         try (InputStream inputStream = new FileInputStream(fileName)) {
@@ -25,7 +25,7 @@ public class Students {
         }
     }
 
-    public static List<Student> load(InputStream inputStream, FileFormat format, NamingStrategy namingStrategy)
+    public static List<Student> load(InputStream inputStream, FileFormat format, RosterNamingStrategy namingStrategy)
             throws InvalidStudentFormatException, IOException {
 
         FormatLoader loader = format.createFormatLoader();
@@ -45,9 +45,9 @@ public class Students {
 
 class ListBuilder implements StudentBuilder {
     private List<Student> students;
-    private NamingStrategy namingStrategy;
+    private RosterNamingStrategy namingStrategy;
 
-    ListBuilder(NamingStrategy namingStrategy) {
+    ListBuilder(RosterNamingStrategy namingStrategy) {
         this.namingStrategy = namingStrategy;
     }
 

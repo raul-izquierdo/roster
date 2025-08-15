@@ -3,7 +3,7 @@ package es.uniovi.raul.roster.naming;
 /**
  * Implements a naming strategy where the roster ID is formatted as "name (group)".
  */
-public final class ParenthesisStrategy implements NamingStrategy {
+public final class ParenthesisStrategy implements RosterNamingStrategy {
 
     private static final String OPEN = " ("; // Note: Leading space is intentional to match the format "name (group)"
     private static final String CLOSE = ")";

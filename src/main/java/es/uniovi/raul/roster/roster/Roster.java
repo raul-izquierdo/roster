@@ -8,7 +8,7 @@ import java.util.*;
 import org.apache.commons.csv.*;
 
 import es.uniovi.raul.roster.model.Student;
-import es.uniovi.raul.roster.naming.NamingStrategy;
+import es.uniovi.raul.roster.naming.RosterNamingStrategy;
 
 /**
  * The Roster is the list of students in a GH Classroom.
@@ -17,7 +17,7 @@ import es.uniovi.raul.roster.naming.NamingStrategy;
  */
 public class Roster {
 
-    public static List<Student> load(String rosterFile, NamingStrategy namingStrategy)
+    public static List<Student> load(String rosterFile, RosterNamingStrategy namingStrategy)
             throws IOException, InvalidRosterFormatException {
 
         try (var reader = new java.io.FileReader(rosterFile)) {
@@ -30,7 +30,7 @@ public class Roster {
         }
     }
 
-    public static List<Student> load(Reader reader, NamingStrategy namingStrategy)
+    public static List<Student> load(Reader reader, RosterNamingStrategy namingStrategy)
             throws IOException, InvalidRosterFormatException {
 
         List<Student> roster = new ArrayList<>();
