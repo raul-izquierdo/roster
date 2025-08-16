@@ -2,7 +2,7 @@
 
 ## Objective
 
-This tool tells you which students should be added, updated, or removed from a GitHub Classroom roster. Since GitHub doesn’t provide an API to manage rosters, you must apply the changes manually in the GitHub Classroom web interface.
+This tool identifies students to add or remove from a GitHub Classroom roster, and those whose group has changed. Since GitHub doesn’t provide an API to manage rosters, you must apply the changes manually in the GitHub Classroom web interface.
 
 The application provides two commands:
 - **create** — prints the list of students to add to a roster
