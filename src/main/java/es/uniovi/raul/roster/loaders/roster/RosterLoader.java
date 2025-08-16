@@ -49,6 +49,9 @@ public class RosterLoader {
 
                 students.add(new Student(studentName, group, rosterId));
             }
+
+        } catch (UncheckedIOException e) { // Handle the unchecked exception from CSV parsing
+            throw new InvalidRosterFormatException(e.getCause().getMessage());
         }
 
         if (students.isEmpty())
