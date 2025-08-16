@@ -58,7 +58,7 @@ class RosterLoaderTest {
             "\"\", johnd,1,John Doe",
             "wrongFormatId, johnd,1,John Doe",
     })
-    @DisplayName("load(Reader) throws when no identifier present")
+    @DisplayName("load(Reader) throws when no identifier present or wrong")
     void noIdentifierThrows(String row) {
         String header = "identifier,github_username,github_id,name\n";
         String csv = header + row + "\n";
