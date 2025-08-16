@@ -14,10 +14,10 @@ Examples:
 
 ```bash
 # Create a roster from a students file (prints students to add)
-java -jar roster.jar create alumnosMatriculados.xls -f sies -g groups.txt
+java -jar roster.jar create alumnosMatriculados.xls -f sies -g mygroups.txt
 
 # Update an existing roster (prints adds, removals, and changes)
-java -jar roster.jar update alumnosMatriculados.xls -f sies -r classroom_roster.csv -g groups.txt
+java -jar roster.jar update alumnosMatriculados.xls -f sies -r classroom_roster.csv -g mygroups.txt
 ```
 
 ## Output examples
@@ -81,6 +81,13 @@ Options:
 - **-g <groups.txt>**: (optional) A file with the teacher’s groups. Only students in these groups will be included. If not specified, all students are included.
 - **-h, --help**: Show help.
 
+
+The 'roster.csv' file must be downloaded from the organization page. To get this file:
+1. Go to your GitHub Classroom page.
+2. Click on the "Roster" tab.
+3. Click the "Download roster" button to get the CSV file.
+
+
 ## Students file formats
 
 ### SIES format
@@ -99,6 +106,8 @@ Example:
 "Izquierdo Castanedo, Raúl", 01
 "González, Juan", i02
 ```
+
+**NOTE**: remember to **use quotes** around names that **contain commas** or special characters.
 
 ### Excel format
 
