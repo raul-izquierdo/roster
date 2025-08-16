@@ -1,4 +1,4 @@
-package es.uniovi.raul.roster.roster;
+package es.uniovi.raul.roster.loaders.roster;
 
 import static org.junit.jupiter.api.Assertions.*;
 

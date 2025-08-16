@@ -7,11 +7,11 @@ import java.util.*;
 
 import es.uniovi.raul.roster.cli.*;
 import es.uniovi.raul.roster.cli.Arguments.CliCommand;
-import es.uniovi.raul.roster.groups.GroupsLoader;
-import es.uniovi.raul.roster.groups.GroupsLoader.InvalidGroupFormatException;
-import es.uniovi.raul.roster.loader.*;
+import es.uniovi.raul.roster.loaders.groups.GroupsLoader;
+import es.uniovi.raul.roster.loaders.groups.GroupsLoader.InvalidGroupFormatException;
+import es.uniovi.raul.roster.loaders.roster.RosterLoader;
+import es.uniovi.raul.roster.loaders.students.*;
 import es.uniovi.raul.roster.model.*;
-import es.uniovi.raul.roster.roster.*;
 
 public class Main {
     public static void main(String[] args) {

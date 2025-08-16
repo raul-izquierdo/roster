@@ -1,6 +1,6 @@
 package es.uniovi.raul.roster.cli;
 
-import es.uniovi.raul.roster.loader.FileFormat;
+import es.uniovi.raul.roster.loaders.students.FileFormat;
 import picocli.CommandLine.*;
 
 // CHECKSTYLE:OFF

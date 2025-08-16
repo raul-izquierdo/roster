@@ -1,4 +1,4 @@
-package es.uniovi.raul.roster.loader.formats;
+package es.uniovi.raul.roster.loaders.students.formats;
 
 import static java.lang.String.*;
 import static org.apache.poi.ss.usermodel.CellType.*;
@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import org.apache.poi.ss.usermodel.*;
 
-import es.uniovi.raul.roster.loader.InvalidStudentFormatException;
+import es.uniovi.raul.roster.loaders.students.InvalidStudentFormatException;
 
 /**
  * Loader for SIES Excel files.

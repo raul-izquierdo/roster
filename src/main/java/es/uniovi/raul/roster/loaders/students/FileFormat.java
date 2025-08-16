@@ -1,8 +1,8 @@
-package es.uniovi.raul.roster.loader;
+package es.uniovi.raul.roster.loaders.students;
 
 import java.util.function.Supplier;
 
-import es.uniovi.raul.roster.loader.formats.*;
+import es.uniovi.raul.roster.loaders.students.formats.*;
 
 public enum FileFormat {
 

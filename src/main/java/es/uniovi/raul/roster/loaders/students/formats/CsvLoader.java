@@ -1,4 +1,4 @@
-package es.uniovi.raul.roster.loader.formats;
+package es.uniovi.raul.roster.loaders.students.formats;
 
 import static java.lang.String.*;
 
@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import org.apache.commons.csv.*;
 
-import es.uniovi.raul.roster.loader.*;
+import es.uniovi.raul.roster.loaders.students.*;
 
 public final class CsvLoader implements FormatLoader {
 

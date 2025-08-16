@@ -1,4 +1,4 @@
-package es.uniovi.raul.roster.loader.formats;
+package es.uniovi.raul.roster.loaders.students.formats;
 
 import static org.apache.poi.ss.usermodel.CellType.*;
 import static org.apache.poi.ss.usermodel.WorkbookFactory.*;
@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import org.apache.poi.ss.usermodel.*;
 
-import es.uniovi.raul.roster.loader.*;
+import es.uniovi.raul.roster.loaders.students.*;
 
 public class ExcelLoader implements FormatLoader {
 
