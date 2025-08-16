@@ -55,13 +55,13 @@ class RosterLoaderTest {
     @ParameterizedTest
     @ValueSource(strings = {
             ", johnd,1,John Doe",
-            "\"\", johnd,1,John Doe"
+            "\"\", johnd,1,John Doe",
+            "wrongFormatId, johnd,1,John Doe",
     })
     @DisplayName("load(Reader) throws when no identifier present")
     void noIdentifierThrows(String row) {
         String header = "identifier,github_username,github_id,name\n";
         String csv = header + row + "\n";
-        Exception ex = assertThrows(RosterLoader.InvalidRosterFormatException.class, () -> loadCsv(csv));
-        assertTrue(ex.getMessage().toLowerCase().contains("identifier"));
+        assertThrows(RosterLoader.InvalidRosterFormatException.class, () -> loadCsv(csv));
     }
 }

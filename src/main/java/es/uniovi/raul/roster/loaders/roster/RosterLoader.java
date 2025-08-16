@@ -50,8 +50,8 @@ public class RosterLoader {
                 students.add(new Student(studentName, group, rosterId));
             }
 
-        } catch (UncheckedIOException e) { // Handle the unchecked exception from CSV parsing
-            throw new InvalidRosterFormatException(e.getCause().getMessage());
+        } catch (IllegalArgumentException e) { // Invalid identifier for NamingStrategy
+            throw new InvalidRosterFormatException(e.getMessage());
         }
 
         if (students.isEmpty())
@@ -82,19 +82,13 @@ public class RosterLoader {
         return value.get();
     }
 
-    private static Optional<String> findValue(CSVRecord csvRecord, String column) {
+    private static Optional<String> findValue(CSVRecord csvRecord, String columnName) {
+        String value = csvRecord.get(columnName);
 
-        try {
-            String value = csvRecord.get(column);
-
-            if (value == null || value.isBlank()) // For example `,a`
-                return Optional.empty();
-
-            return Optional.of(value);
-
-        } catch (ArrayIndexOutOfBoundsException e) { // Column does not exist
+        if (value == null || value.isBlank()) // For example `,a`
             return Optional.empty();
-        }
+
+        return Optional.of(value);
     }
 
     public static class InvalidRosterFormatException extends Exception {
