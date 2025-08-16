@@ -52,7 +52,7 @@ public final class SiesLoader extends ExcelLoader {
      * Validates that the file is a SIES excel file.
      * Checks that the headers are in the expected positions and have the correct values.
      */
-    private static void validateSiesFormat(Sheet sheet) throws InvalidStudentFormatException {
+    private void validateSiesFormat(Sheet sheet) throws InvalidStudentFormatException {
 
         Row headerRow = sheet.getRow(HEADERS_ROW); // Row 10 (0-based index)
         if (headerRow == null)
