@@ -1,8 +1,9 @@
 package es.uniovi.raul.roster.main;
 
 import java.io.PrintStream;
+import java.util.stream.Stream;
 
-import es.uniovi.raul.roster.model.Roster;
+import es.uniovi.raul.roster.model.*;
 
 public final class Reporter {
 
@@ -15,7 +16,7 @@ public final class Reporter {
 
     private static void printStudentsToAdd(Roster roster, PrintStream printer) {
 
-        printer.println(
+        printSection(
                 """
 
                         ## Students to add to the roster
@@ -25,14 +26,14 @@ public final class Reporter {
                         - Click the 'Students' tab.
                         - Click the 'Update Students' button.
                         - Select and copy all the lines below at once, then paste them into the 'Create your roster manually' text area.
-                        """);
-
-        roster.findStudentsToEnroll().forEach(student -> printer.println(student.name()));
+                        """,
+                roster.findStudentsToEnroll().map(Student::name),
+                printer);
     }
 
     private static void printStudentsToRemove(Roster roster, PrintStream printer) {
 
-        printer.println(
+        printSection(
                 """
 
                         ## Students to remove from the roster
@@ -42,14 +43,14 @@ public final class Reporter {
                         - Click the 'Students' tab.
                         - For each of the following lines:
                             - Find the student with that roster ID and click the "trash" icon.
-                                """);
-
-        roster.findStudentsForRemoval().forEach(student -> printer.println(student.name()));
+                        """,
+                roster.findStudentsForRemoval().map(Student::name),
+                printer);
     }
 
     private static void printGroupChanges(Roster roster, PrintStream printer) {
 
-        printer.println(
+        printSection(
                 """
 
                         ## Students who have changed groups
@@ -60,10 +61,21 @@ public final class Reporter {
                         - For each of the following lines:
                             - Find the student using the old roster ID (shown on the left side of the arrow) and click the "pen" icon.
                             - Replace the old roster ID with the new one (shown on the right side of the arrow).
-                        """);
-
-        roster.findGroupChanges()
-                .map(change -> change.old().rosterId() + " ---> " + change.updated().rosterId())
-                .forEach(printer::println);
+                        """,
+                roster.findGroupChanges()
+                        .map(change -> change.old().rosterId() + " ---> " + change.updated().rosterId()),
+                printer);
     }
+
+    private static void printSection(String header, Stream<String> lines, PrintStream printer) {
+
+        var linesList = lines.toList();
+
+        if (linesList.isEmpty())
+            return;
+
+        printer.println(header);
+        linesList.forEach(printer::println);
+    }
+
 }
