@@ -7,10 +7,9 @@ import es.uniovi.raul.roster.model.Roster;
 public final class Reporter {
 
     public static void printRequiredChanges(Roster roster, PrintStream printer) {
+
         printStudentsToAdd(roster, printer);
-
         printStudentsToRemove(roster, printer);
-
         printGroupChanges(roster, printer);
     }
 
