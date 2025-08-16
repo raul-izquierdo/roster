@@ -70,7 +70,7 @@ public class ExcelLoader implements FormatLoader {
         studentsBuilder.buildStudent(studentName, group);
     }
 
-    private static Optional<String> getCellValue(Row row, int columnIndex) {
+    private Optional<String> getCellValue(Row row, int columnIndex) {
         Cell cell = row.getCell(columnIndex);
         return (cell != null && cell.getCellType() == STRING)
                 ? Optional.of(cell.getStringCellValue().trim())
