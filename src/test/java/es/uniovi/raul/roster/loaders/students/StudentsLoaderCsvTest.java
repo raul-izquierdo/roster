@@ -30,6 +30,19 @@ class StudentsLoaderCsvTest {
         assertEquals(new Student("Jane Roe", "02", "Jane Roe (02)"), list.get(1));
     }
 
+    @Test
+    @DisplayName("load(InputStream, CSV) returns students with quotes and spaces")
+    // Si se pone un espacio después de la coma y antes de la comilla, se debe ignorar (IgnoreSurroundingSpaces hace que funcione; por defecto no)
+    void loadCsvWithSurroundingSpaces() throws Exception {
+        var list = loadCsv("""
+                "Izquierdo, Raúl", "01"
+                "Pérez, Manolo" , "i01"
+                """);
+        assertEquals(2, list.size());
+        assertEquals(new Student("Izquierdo, Raúl", "01", "Izquierdo, Raúl (01)"), list.get(0));
+        assertEquals(new Student("Pérez, Manolo", "i01", "Pérez, Manolo (i01)"), list.get(1));
+    }
+
     @ParameterizedTest
     @ValueSource(strings = { ",01\n", ",\n", ",  \n" })
     @DisplayName("load(InputStream, CSV) throws when student name is blank")

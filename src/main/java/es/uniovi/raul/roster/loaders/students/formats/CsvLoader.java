@@ -19,6 +19,7 @@ public final class CsvLoader implements FormatLoader {
 
         try (CSVParser parser = new CSVParser(new InputStreamReader(inputStream),
                 CSVFormat.DEFAULT.builder()
+                        .setIgnoreSurroundingSpaces(true)
                         .setTrim(true)
                         .setSkipHeaderRecord(false)
                         .build())) {
