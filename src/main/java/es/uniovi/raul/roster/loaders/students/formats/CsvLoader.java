@@ -31,9 +31,6 @@ public final class CsvLoader implements FormatLoader {
 
                 builder.buildStudent(studentName, group);
             }
-
-        } catch (UncheckedIOException e) { // Handle the unchecked exception from CSV parsing
-            throw new InvalidStudentFormatException(e.getCause().getMessage());
         }
     }
 
@@ -51,16 +48,11 @@ public final class CsvLoader implements FormatLoader {
 
     private Optional<String> findValue(CSVRecord csvRecord, int column) {
 
-        try {
-            String value = csvRecord.get(column);
-
-            if (value == null || value.isBlank()) // For example `,a`
-                return Optional.empty();
-
-            return Optional.of(value);
-
-        } catch (ArrayIndexOutOfBoundsException e) { // Column does not exist
+        if (!csvRecord.isSet(column))
             return Optional.empty();
-        }
+
+        String value = csvRecord.get(column);
+        return (value == null || value.isBlank()) ? Optional.empty() : Optional.of(value);
+
     }
 }
