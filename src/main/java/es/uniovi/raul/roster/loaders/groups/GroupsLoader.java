@@ -49,14 +49,10 @@ public class GroupsLoader {
 
     private static String getValue(CSVRecord csvRecord, int column) throws InvalidGroupFormatException {
 
-        var value = findValue(csvRecord, column);
-
-        if (value.isEmpty())
-            throw new InvalidGroupFormatException(
-                    format("Record #%d: '%s' -> column '%d' (zero based) cannot be blank",
-                            csvRecord.getRecordNumber(), join(", ", csvRecord), column));
-
-        return value.get();
+        return findValue(csvRecord, column)
+                .orElseThrow(() -> new InvalidGroupFormatException(
+                        format("Record #%d: '%s' -> column '%d' (zero based) cannot be blank",
+                                csvRecord.getRecordNumber(), join(", ", csvRecord), column)));
     }
 
     private static Optional<String> findValue(CSVRecord csvRecord, int column) {

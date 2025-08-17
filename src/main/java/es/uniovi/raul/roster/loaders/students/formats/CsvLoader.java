@@ -36,14 +36,10 @@ public final class CsvLoader implements FormatLoader {
 
     private String getValue(CSVRecord csvRecord, int column) throws InvalidStudentFormatException {
 
-        var value = findValue(csvRecord, column);
-
-        if (value.isEmpty())
-            throw new InvalidStudentFormatException(
-                    format("Record #%d: '%s' -> column '%d' (zero based) cannot be blank",
-                            csvRecord.getRecordNumber(), join(", ", csvRecord), column));
-
-        return value.get();
+        return findValue(csvRecord, column)
+                .orElseThrow(() -> new InvalidStudentFormatException(
+                        format("Record #%d: '%s' -> column '%d' (zero based) cannot be blank",
+                                csvRecord.getRecordNumber(), join(", ", csvRecord), column)));
     }
 
     private Optional<String> findValue(CSVRecord csvRecord, int column) {
