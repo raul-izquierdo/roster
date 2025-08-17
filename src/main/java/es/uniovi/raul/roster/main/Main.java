@@ -52,7 +52,9 @@ public class Main {
             students = students.stream()
                     .filter(student -> teacherGroups.contains(student.group()))
                     .toList();
-        }
+        } else
+            Console.printWarning(
+                    "The teacher has not specified his groups using a <groups.csv> file. So all students will be included in the output.");
 
         return students;
 
