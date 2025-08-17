@@ -47,17 +47,17 @@ public class Main {
 
         List<Student> students = StudentsLoader.load(studentsFile, format);
 
-        if (groupsFile != null) {
+        if (groupsFile == null)
+            Console.printWarning(
+                    "The teacher has not specified his groups using a <groups.csv> file. So all students will be included in the output.");
+        else {
             List<String> teacherGroups = GroupsLoader.load(groupsFile);
             students = students.stream()
                     .filter(student -> teacherGroups.contains(student.group()))
                     .toList();
-        } else
-            Console.printWarning(
-                    "The teacher has not specified his groups using a <groups.csv> file. So all students will be included in the output.");
+        }
 
         return students;
-
     }
 
 }
