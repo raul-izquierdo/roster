@@ -9,14 +9,14 @@ This tool helps you manage your GitHub Classroom roster by identifying students 
 
 ## Use Cases
 
-First, obtain a list of students enrolled in your course and their lab groups. How you get this list depends on your institution. Once you have it, you can provide it to the tool in [various formats](#groups-file-format) (Excel, text, CSV, etc.).
+First, obtain a list of students enrolled in your course and their lab groups. How you get this list depends on your institution. Once you have it, you can provide it to the tool in [various formats](#student-file-formats) (Excel, text, CSV, etc.).
 
 The application provides two commands:
 - **create** — prints a list of students to add to the classroom roster.
 - **update** — compares your student list with the existing roster and prints students to add, remove, or whose group has changed.
 
 ```bash
-# Create a roster from a students file (prints students to add)
+# Create a roster from a student file (prints students to add)
 java -jar roster.jar create alumnosMatriculados.xls -f sies
 
 # Update an existing roster (prints additions, removals, and changes)
@@ -68,7 +68,7 @@ Ramírez, Lucía (01) ---> Ramírez, Lucía (02)
 
 ## Usage
 
-The JAR can be downloaded from the [releases page](https://github.com/raul-izquierdo/roster/releases).
+The JAR can be downloaded from the [releases page](https://github.com/raul-izquierdo/teams/releases).
 
 Syntax:
 
