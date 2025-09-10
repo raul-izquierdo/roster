@@ -17,16 +17,16 @@ The application provides two commands:
 
 ```bash
 # Create a roster from a student file (prints students to add)
-java -jar roster.jar create alumnosMatriculados.xls -f sies
+java -jar roster.jar create -f sies alumnosMatriculados.xls
 
 # Update an existing roster (prints additions, removals, and changes)
-java -jar roster.jar update alumnos.txt -f csv -r classroom_roster.csv
+java -jar roster.jar update  -r classroom_roster.csv -f sies alumnosMatriculados.xls
 ```
 
-Example output for the **update** command:
+Example output for the **update** command applied to a list of students stored in _CSV_ format in the file _alumnos.txt_:
 
 ```bash
-$ java -jar roster.jar update alumnos.txt -f csv -r classroom_roster.csv
+$ java -jar roster.jar update -r classroom_roster.csv -f csv alumnos.txt
 
 ## Students to add to the roster
 
@@ -142,7 +142,7 @@ i01, wednesday, 12:00
 Once you have this file, you can use it with both the `create` and `update` commands using the `-g` flag:
 
 ```bash
-java -jar roster.jar create alumnosMatriculados.xls -f sies -g mygroups.txt
+java -jar roster.jar create -g mygroups.txt -f sies alumnosMatriculados.xls
 ```
 
 ## License
