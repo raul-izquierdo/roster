@@ -27,8 +27,7 @@ public final class Reporter {
                         - Click the 'Update Students' button.
                         - Select and copy all the lines below at once, then paste them into the 'Create your roster manually' text area.
                         """,
-                roster.findStudentsToEnroll().map(Student::name),
-                printer);
+                roster.findStudentsToEnroll().map(Student::rosterId), printer);
     }
 
     private static void printStudentsToRemove(Roster roster, PrintStream printer) {
@@ -44,8 +43,7 @@ public final class Reporter {
                         - For each of the following lines:
                             - Find the student with that roster ID and click the "trash" icon.
                         """,
-                roster.findStudentsForRemoval().map(Student::name),
-                printer);
+                roster.findStudentsForRemoval().map(Student::rosterId), printer);
     }
 
     private static void printGroupChanges(Roster roster, PrintStream printer) {
