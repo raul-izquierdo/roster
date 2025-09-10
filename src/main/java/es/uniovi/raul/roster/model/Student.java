@@ -4,7 +4,7 @@ package es.uniovi.raul.roster.model;
  * Represents a student with a name, group, and roster ID.
  * Example:
  * <pre>
- *     Student student = new Student("Izquierdo Castanedo, Raúl", "i02", "Izquierdo Castanedo, Raúl-i02");
+ *     Student student = new Student("Izquierdo Castanedo, Raúl", "i02", "Izquierdo Castanedo, Raúl (i02)");
  * </pre>
  * The roster ID is generated using the NamingStrategy class.
  *
