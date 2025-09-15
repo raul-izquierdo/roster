@@ -4,6 +4,7 @@ alumnosMatriculados.xls
 classroom_roster.csv
 students.txt
 groups.txt
+schedule.csv
 
 # Visual Studio Code
 .vscode/launch.json
