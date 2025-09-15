@@ -5,7 +5,7 @@ import picocli.CommandLine.*;
 
 // CHECKSTYLE:OFF
 
-@Command(name = "roster", version = "2.0.3", showDefaultValues = true, mixinStandardHelpOptions = true, usageHelpAutoWidth = true, description = Messages.DESCRIPTION, customSynopsis = Messages.USAGE, footer = Messages.CREDITS)
+@Command(name = "roster", version = "3.0.0", showDefaultValues = true, mixinStandardHelpOptions = true, usageHelpAutoWidth = true, description = Messages.DESCRIPTION, customSynopsis = Messages.USAGE, footer = Messages.CREDITS)
 public class Arguments {
 
     public enum CliCommand {
@@ -23,7 +23,7 @@ public class Arguments {
     @Option(names = "-f", defaultValue = "sies", description = "The format of the students file. Supported values: ${COMPLETION-CANDIDATES}.")
     public FileFormat format;
 
-    @Option(names = "-g", defaultValue = "schedule.csv", description = "The file listing the teacher's groups.")
+    @Option(names = "-s", defaultValue = "schedule.csv", description = "The file listing the teacher's groups.")
     public String groupsFile;
 
     @Option(names = "-r", defaultValue = "classroom_roster.csv", description = "The roster CSV file downloaded from GitHub Classroom (used only with the 'update' command).")

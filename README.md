@@ -17,10 +17,10 @@ The application provides two commands:
 
 ```bash
 # Create a roster from a student file (prints students to add)
-java -jar roster.jar create -g schedule.csv -f sies alumnosMatriculados.xls
+java -jar roster.jar create -s schedule.csv -f sies alumnosMatriculados.xls
 
 # Update an existing roster (prints additions, removals, and changes)
-java -jar roster.jar update  -r classroom_roster.csv -g schedule.csv -f sies alumnosMatriculados.xls
+java -jar roster.jar update  -r classroom_roster.csv -s schedule.csv -f sies alumnosMatriculados.xls
 ```
 
 The previous examples show the default values of the options. So they can be simplified to:
@@ -89,7 +89,7 @@ Options:
 - **students-file**: The file containing the students and their groups. (default: "alumnosMatriculados.xls")
 - **-f <format>**: The format of the students file. Supported: "excel", "csv", "sies". (default: "sies"). See [Student File Formats](#student-file-formats) for details.
 - **-r <roster.csv>**: The roster CSV exported from GitHub Classroom (used only with the 'update' command). (default: "classroom_roster.csv"). See [Obtaining the Roster file](https://github.com/raul-izquierdo/classroom-tools#obtaining-the-roster-file) for instructions on how to obtain this file.
-- **-g <groups.txt>**: A file with the teacher’s groups. (default: "schedule.csv") See [Groups File Format](#groups-file-format) for details.
+- **-s <groups.txt>**: A file with the teacher’s groups. (default: "schedule.csv") See [Groups File Format](#groups-file-format) for details.
 - **-h, --help**: Show help.
 
 ## Student File Formats
@@ -146,10 +146,10 @@ CSV files with more than one column are allowed, but only the first column is co
 i01, wednesday, 12:00
 ```
 
-Once you have this file, you can use it with both the `create` and `update` commands using the `-g` flag:
+Once you have this file, you can use it with both the `create` and `update` commands using the `-s` flag:
 
 ```bash
-java -jar roster.jar create -g mygroups.txt -f sies alumnosMatriculados.xls
+java -jar roster.jar create -s mygroups.txt -f sies alumnosMatriculados.xls
 ```
 
 If no groups file is provided, the file `schedule.csv` is used by default.
