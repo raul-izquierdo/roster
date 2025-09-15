@@ -45,19 +45,11 @@ public class Main {
     public static List<Student> loadTeacherStudents(String studentsFile, FileFormat format, String groupsFile)
             throws IOException, InvalidStudentFormatException, InvalidGroupFormatException {
 
-        List<Student> students = StudentsLoader.load(studentsFile, format);
+        List<String> teacherGroups = GroupsLoader.load(groupsFile);
 
-        if (groupsFile == null)
-            Console.printWarning(
-                    "The teacher has not specified his groups using a <groups.csv> file. So all students will be included in the output.");
-        else {
-            List<String> teacherGroups = GroupsLoader.load(groupsFile);
-            students = students.stream()
-                    .filter(student -> teacherGroups.contains(student.group()))
-                    .toList();
-        }
-
-        return students;
+        return StudentsLoader.load(studentsFile, format).stream()
+                .filter(student -> teacherGroups.contains(student.group()))
+                .toList();
     }
 
 }

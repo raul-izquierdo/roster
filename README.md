@@ -17,10 +17,17 @@ The application provides two commands:
 
 ```bash
 # Create a roster from a student file (prints students to add)
-java -jar roster.jar create -f sies alumnosMatriculados.xls
+java -jar roster.jar create -g schedule.csv -f sies alumnosMatriculados.xls
 
 # Update an existing roster (prints additions, removals, and changes)
-java -jar roster.jar update  -r classroom_roster.csv -f sies alumnosMatriculados.xls
+java -jar roster.jar update  -r classroom_roster.csv -g schedule.csv -f sies alumnosMatriculados.xls
+```
+
+The previous examples show the default values of the options. So they can be simplified to:
+```bash
+java -jar roster.jar create
+
+java -jar roster.jar update
 ```
 
 Example output for the **update** command applied to a list of students stored in _CSV_ format in the file _alumnos.txt_:
@@ -59,8 +66,6 @@ Instructions:
 	- Find the student using the old roster ID (shown on the left side of the arrow) and click the "pen" icon.
 	- Replace the old roster ID with the new one (shown on the right side of the arrow).
 
-
-
 González, Juan (02) ---> González Pérez, Juan (03)
 Valles, Pedro (i01) ---> Valle, Pedro (i02)
 Ramírez, Lucía (01) ---> Ramírez, Lucía (02)
@@ -84,7 +89,7 @@ Options:
 - **students-file**: The file containing the students and their groups. (default: "alumnosMatriculados.xls")
 - **-f <format>**: The format of the students file. Supported: "excel", "csv", "sies". (default: "sies"). See [Student File Formats](#student-file-formats) for details.
 - **-r <roster.csv>**: The roster CSV exported from GitHub Classroom (used only with the 'update' command). (default: "classroom_roster.csv"). See [Obtaining the Roster file](https://github.com/raul-izquierdo/classroom-tools#obtaining-the-roster-file) for instructions on how to obtain this file.
-- **-g <groups.txt>**: (optional) A file with the teacher’s groups. See [Groups File Format](#groups-file-format) for details.
+- **-g <groups.txt>**: A file with the teacher’s groups. (default: "schedule.csv") See [Groups File Format](#groups-file-format) for details.
 - **-h, --help**: Show help.
 
 ## Student File Formats
@@ -123,6 +128,8 @@ This format is exactly the same as the CSV format (two columns, no header row).
 
 Usually, a teacher does not teach all the groups in a course. To filter the output to only include students belonging to the teacher’s groups, create a groups file. Only students in these groups will be included in the output.
 
+> If all the groups are taught by the same teacher, just add all the groups to this file.
+
 The groups file is a simple text file with one group per line. The group names must match those in the students file.
 
 ```csv
@@ -144,6 +151,8 @@ Once you have this file, you can use it with both the `create` and `update` comm
 ```bash
 java -jar roster.jar create -g mygroups.txt -f sies alumnosMatriculados.xls
 ```
+
+If no groups file is provided, the file `schedule.csv` is used by default.
 
 ## License
 
