@@ -34,15 +34,14 @@ public class Main {
             if (arguments.command == CliCommand.UPDATE)
                 roster.setPreviousRoster(RosterLoader.load(arguments.rosterFile));
 
-            printRequiredChanges(roster, System.out);
+            boolean changesRequired = printRequiredChanges(roster, System.out);
+
+            System.exit(changesRequired ? 1 : 0); // Exit with 1 if changes proposed, otherwise 0 (roster is up to date)
 
         } catch (Exception e) {
             Console.printError(e.getMessage());
             System.exit(1);
         }
-
-        System.exit(0);
-
     }
 
     public static List<Student> loadTeacherStudents(String studentsFile, FileFormat format, String groupsFile)

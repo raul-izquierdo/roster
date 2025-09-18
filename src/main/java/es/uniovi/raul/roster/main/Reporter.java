@@ -7,16 +7,18 @@ import es.uniovi.raul.roster.model.*;
 
 public final class Reporter {
 
-    public static void printRequiredChanges(Roster roster, PrintStream printer) {
+    public static boolean printRequiredChanges(Roster roster, PrintStream printer) {
 
-        printStudentsToAdd(roster, printer);
-        printStudentsToRemove(roster, printer);
-        printGroupChanges(roster, printer);
+        boolean studentsAdded = printStudentsToAdd(roster, printer);
+        boolean studentsRemoved = printStudentsToRemove(roster, printer);
+        boolean studentsChanged = printGroupChanges(roster, printer);
+
+        return studentsAdded || studentsRemoved || studentsChanged;
     }
 
-    private static void printStudentsToAdd(Roster roster, PrintStream printer) {
+    private static boolean printStudentsToAdd(Roster roster, PrintStream printer) {
 
-        printSection(
+        return printSection(
                 """
 
                         ## Students to add to the roster
@@ -30,9 +32,9 @@ public final class Reporter {
                 roster.findStudentsToEnroll().map(Student::rosterId), printer);
     }
 
-    private static void printStudentsToRemove(Roster roster, PrintStream printer) {
+    private static boolean printStudentsToRemove(Roster roster, PrintStream printer) {
 
-        printSection(
+        return printSection(
                 """
 
                         ## Students to remove from the roster
@@ -46,9 +48,9 @@ public final class Reporter {
                 roster.findStudentsForRemoval().map(Student::rosterId), printer);
     }
 
-    private static void printGroupChanges(Roster roster, PrintStream printer) {
+    private static boolean printGroupChanges(Roster roster, PrintStream printer) {
 
-        printSection(
+        return printSection(
                 """
 
                         ## Students who have changed groups
@@ -65,15 +67,18 @@ public final class Reporter {
                 printer);
     }
 
-    private static void printSection(String header, Stream<String> lines, PrintStream printer) {
+    // returns true if any lines were printed
+    private static boolean printSection(String header, Stream<String> lines, PrintStream printer) {
 
         var linesList = lines.toList();
 
         if (linesList.isEmpty())
-            return;
+            return false;
 
         printer.println(header);
         linesList.forEach(printer::println);
+        return true;
+
     }
 
 }
