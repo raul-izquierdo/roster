@@ -19,7 +19,7 @@ public class Main {
         Optional<Arguments> argumentsOpt = ArgumentsParser.parse(args);
 
         if (argumentsOpt.isEmpty())
-            System.exit(1);
+            System.exit(2);
 
         Arguments arguments = argumentsOpt.get();
 
@@ -40,7 +40,7 @@ public class Main {
 
         } catch (Exception e) {
             Console.printError(e.getMessage());
-            System.exit(1);
+            System.exit(2);
         }
     }
 
