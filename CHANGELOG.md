@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [3.1.0]
+
+## Added
+
+- The students file and the format can be set in an ".env" file using the variables `STUDENTS_FILE` and `STUDENTS_FORMAT`.
+- Exit codes have been added to indicate the result of the command execution. See the "Exit Codes" section in `README.md`.
+
 ## [3.0.0]
 
 ### Changed
