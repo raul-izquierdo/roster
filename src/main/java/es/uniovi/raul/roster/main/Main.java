@@ -24,6 +24,9 @@ public class Main {
         Arguments arguments = argumentsOpt.get();
 
         try {
+            System.out.println(String.format(
+                    "%nProcessing students from file '%s' (format: %s), using groups file '%s'.",
+                    arguments.studentsFile, arguments.format, arguments.groupsFile));
 
             var teacherStudents = loadTeacherStudents(arguments.studentsFile, arguments.format, arguments.groupsFile);
             var roster = new Roster(teacherStudents);
