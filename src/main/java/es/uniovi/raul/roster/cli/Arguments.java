@@ -16,11 +16,11 @@ public class Arguments {
     @Parameters(index = "0", arity = "1", description = "The action to perform. Supported values: ${COMPLETION-CANDIDATES}.")
     public CliCommand command;
 
-    // Second positional: students file (optional, with default)
-    @Parameters(index = "1", defaultValue = "alumnosMatriculados.xls", arity = "0..1", description = "The file with the list of students and their groups.")
+    // Second positional: students file (optional)
+    @Parameters(index = "1", arity = "0..1", description = "The file with the list of students and their groups (optional).")
     public String studentsFile;
 
-    @Option(names = "-f", defaultValue = "sies", description = "The format of the students file. Supported values: ${COMPLETION-CANDIDATES}.")
+    @Option(names = "-f", description = "The format of the students file. Supported values: ${COMPLETION-CANDIDATES}.", required = false)
     public FileFormat format;
 
     @Option(names = "-s", defaultValue = "schedule.csv", description = "The file listing the teacher's groups.")

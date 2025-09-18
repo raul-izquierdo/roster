@@ -1,10 +1,12 @@
 package es.uniovi.raul.roster.cli;
 
-import picocli.CommandLine;
-import picocli.CommandLine.*;
-
 import java.io.PrintStream;
 import java.util.Optional;
+
+import es.uniovi.raul.roster.loaders.students.FileFormat;
+import io.github.cdimascio.dotenv.Dotenv;
+import picocli.CommandLine;
+import picocli.CommandLine.ParameterException;
 
 /** Parses and validates command line arguments. */
 public class ArgumentsParser {
@@ -42,6 +44,8 @@ public class ArgumentsParser {
                 return Optional.empty();
             }
 
+            ensureRequiredEnvironment(arguments, picocli);
+
             return Optional.of(arguments);
 
         } catch (ParameterException ex) {
@@ -49,6 +53,34 @@ public class ArgumentsParser {
             picocli.usage(err);
             return Optional.empty();
         }
+    }
+
+    //#  -----------------------------------
+    private static void ensureRequiredEnvironment(Arguments arguments, final CommandLine picocli) {
+
+        if (arguments.studentsFile == null)
+            arguments.studentsFile = getEnvironmentVariable("STUDENTS_FILE")
+                    .orElseThrow(() -> new ParameterException(picocli,
+                            "Missing required arguments: 'STUDENTS_FILE' should be provided either via command line or in a '.env' file"));
+
+        if (arguments.format == null) {
+            String formatName = getEnvironmentVariable("STUDENTS_FORMAT")
+                    .orElseThrow(() -> new ParameterException(picocli,
+                            "Missing required arguments: 'STUDENTS_FORMAT' should be provided either via command line or in a '.env' file"));
+            try {
+                arguments.format = FileFormat.valueOf(formatName.trim().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new ParameterException(picocli, "Invalid STUDENTS_FORMAT in environment: " + formatName);
+            }
+        }
+    }
+
+    private static Optional<String> getEnvironmentVariable(String key) {
+        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+        String value = dotenv.get(key);
+        if (value == null)
+            value = System.getenv(key);
+        return Optional.ofNullable(value);
     }
 
 }

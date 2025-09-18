@@ -23,6 +23,8 @@ java -jar roster.jar create -s schedule.csv -f sies alumnosMatriculados.xls
 java -jar roster.jar update  -r classroom_roster.csv -s schedule.csv -f sies alumnosMatriculados.xls
 ```
 
+<!-- TODO: 📅 /**/ These are not the default values: xls and format are required -->
+
 The previous examples show the default values of the options. So they can be simplified to:
 ```bash
 java -jar roster.jar create
@@ -86,8 +88,8 @@ Commands:
 - **update** — prints students to add, remove, or whose group has changed (requires the roster CSV)
 
 Options:
-- **students-file**: The file containing the students and their groups. (default: "alumnosMatriculados.xls")
-- **-f <format>**: The format of the students file. Supported: "excel", "csv", "sies". (default: "sies"). See [Student File Formats](#student-file-formats) for details.
+- **students-file**: The file containing the students and their groups.
+- **-f <format>**: The format of the students file. Supported: "excel", "csv", "sies". See [Student File Formats](#student-file-formats) for details.
 - **-r <roster.csv>**: The roster CSV exported from GitHub Classroom (used only with the 'update' command). (default: "classroom_roster.csv"). See [Obtaining the Roster file](https://github.com/raul-izquierdo/classroom-tools#obtaining-the-roster-file) for instructions on how to obtain this file.
 - **-s <groups.txt>**: A file with the teacher’s groups. (default: "schedule.csv") See [Groups File Format](#groups-file-format) for details.
 - **-h, --help**: Show help.
