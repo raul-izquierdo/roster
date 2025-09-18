@@ -5,7 +5,7 @@ import picocli.CommandLine.*;
 
 // CHECKSTYLE:OFF
 
-@Command(name = "roster", version = "3.1.0", showDefaultValues = true, mixinStandardHelpOptions = true, usageHelpAutoWidth = true, description = Messages.DESCRIPTION, customSynopsis = Messages.USAGE, footer = Messages.CREDITS)
+@Command(name = "roster", version = "3.1.1", showDefaultValues = true, mixinStandardHelpOptions = true, usageHelpAutoWidth = true, description = Messages.DESCRIPTION, customSynopsis = Messages.USAGE, footer = Messages.CREDITS)
 public class Arguments {
 
     public enum CliCommand {
