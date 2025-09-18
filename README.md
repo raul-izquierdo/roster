@@ -1,41 +1,86 @@
-
 # Roster
 
 ## Objective
 
-This tool helps you manage your GitHub Classroom roster by identifying students who need to be added, removed, or whose group has changed, based on a list of enrolled students. Since GitHub does not provide an API for roster management, you must apply these changes manually through the GitHub Classroom web interface.
+This tool helps you manage your GitHub Classroom roster by identifying students who need to be added, removed, or whose groups have changed, based on a list of enrolled students. Since GitHub does not provide an API for roster management, you must apply these changes manually through the GitHub Classroom web interface.
 
-> **NOTE:** This application is **part of a toolkit** for managing classes with GitHub Classroom. It is recommended to **first read** the [main repository](https://github.com/raul-izquierdo/classroom-tools) to get an overview of the project and understand how this tool fits in.
+> **NOTE:** This application is **part of a toolkit** for managing classes with GitHub Classroom. It is recommended to **first read** the [main repository](https://github.com/raul-izquierdo/classroom-tools) to gain an overview of the project and understand how this tool fits in.
 
 ## Use Cases
 
-First, obtain a list of students enrolled in your course and their lab groups. How you get this list depends on your institution. Once you have it, you can provide it to the tool in [various formats](#student-file-formats) (Excel, text, CSV, etc.).
+### Creating a Roster
 
-The application provides two commands:
-- **create** — prints a list of students to add to the classroom roster.
-- **update** — compares your student list with the existing roster and prints students to add, remove, or whose group has changed.
+When you first create a classroom, you need to add all your students to the roster. This tool can help you generate the list of students to add.
 
+The required steps are:
+- Obtain a list of students enrolled in your course and their lab groups. How you obtain this list depends on your institution. Once you have it, you can provide it to the tool in [various formats](#student-file-formats) (Excel, SIES, CSV, etc.).
+- Typically, a teacher does not teach all the groups in a course. Create a group file to filter the output to include only students belonging to the teacher’s groups. Pass the name of this file with the flag `-s`. If that flag is not used, the file name is assumed to be `schedule.csv`. See [Groups File Format](#groups-file-format) for details.
+
+With this information, you can run the tool to generate the list of students to add to your classroom roster. Here are examples with different student file formats:
 ```bash
-# Create a roster from a student file (prints students to add)
-java -jar roster.jar create -s schedule.csv -f sies alumnosMatriculados.xls
-
-# Update an existing roster (prints additions, removals, and changes)
-java -jar roster.jar update  -r classroom_roster.csv -s schedule.csv -f sies alumnosMatriculados.xls
+java -jar roster.jar create -f sies alumnosMatriculados.xls
 ```
 
-<!-- TODO: 📅 /**/ These are not the default values: xls and format are required -->
+```bash
+java -jar roster.jar create -s mygroups.csv -f excel students.xls
+```
 
-The previous examples show the default values of the options. So they can be simplified to:
+```bash
+java -jar roster.jar create -s groups.csv -f csv students.txt
+```
+
+To avoid having to repeat those arguments in every use of the tool, you can create an `.env` file in the current directory with the name and format of your students file:
+```bash
+STUDENTS_FILE="alumnosMatriculados.xls"
+STUDENTS_FORMAT="sies"
+```
+
+Now you can simply run:
+```bash
+java -jar roster.jar create
+```
+
+The output will list the students to add to the roster along with instructions on how to do so. For example:
+
 ```bash
 java -jar roster.jar create
 
+## Students to add to the roster
+Instructions:
+- Go to the Classroom page.
+- Click the 'Students' tab.
+- Click the 'Add Students' button.
+- Select and copy all the lines below at once, then paste them into the 'Create your roster manually' text area.
+
+Izquierdo Castanedo, Raúl (01)
+González Pérez, Juan (i02)
+...
+```
+
+Remember that GitHub Classroom does not provide an API to manage the roster, so you must apply these changes manually through the web interface.
+
+### Updating a Roster
+
+When the semester is underway, students may add or drop the course, or change their lab groups. This tool can help you identify these changes by comparing your current list of enrolled students with the existing classroom roster.
+
+To update an existing roster, you need:
+- An updated version of the enrolled students.
+- The existing classroom roster exported from GitHub Classroom. See [Obtaining the Roster file](https://github.com/raul-izquierdo/classroom-tools#obtaining-the-roster-file) for instructions on how to obtain this file. If you keep the name generated by GitHub Classroom, you don't need to specify it, as the default name is `classroom_roster.csv`.
+
+With this information, you can run the tool to generate a list of students to add, remove, or whose groups have changed.
+```bash
+java -jar roster.jar update -r classroom_roster.csv -s schedule.csv -f sies alumnosMatriculados.xls
+```
+
+Or, using the ".env" file mentioned earlier and the default names for the roster and groups files, just run:
+```bash
 java -jar roster.jar update
 ```
 
-Example output for the **update** command applied to a list of students stored in _CSV_ format in the file _alumnos.txt_:
+Example output for the **update** command, which includes instructions to apply the changes manually:
 
 ```bash
-$ java -jar roster.jar update -r classroom_roster.csv -f csv alumnos.txt
+java -jar roster.jar update
 
 ## Students to add to the roster
 
@@ -84,11 +129,11 @@ java -jar roster.jar <command> [OPTIONS] [<students-file>]
 ```
 
 Commands:
-- **create** — prints the students to add (based on the students file, optionally filtered by groups)
-- **update** — prints students to add, remove, or whose group has changed (requires the roster CSV)
+- **create** — prints the students to add to the roster
+- **update** — prints students to add, remove, or whose groups have changed from the last roster update
 
 Options:
-- **students-file**: The file containing the students and their groups.
+- **students-file**: The file containing the students.
 - **-f <format>**: The format of the students file. Supported: "excel", "csv", "sies". See [Student File Formats](#student-file-formats) for details.
 - **-r <roster.csv>**: The roster CSV exported from GitHub Classroom (used only with the 'update' command). (default: "classroom_roster.csv"). See [Obtaining the Roster file](https://github.com/raul-izquierdo/classroom-tools#obtaining-the-roster-file) for instructions on how to obtain this file.
 - **-s <groups.txt>**: A file with the teacher’s groups. (default: "schedule.csv") See [Groups File Format](#groups-file-format) for details.
@@ -96,16 +141,15 @@ Options:
 
 ## Student File Formats
 
-This tool supports three student file formats: sies, csv, and excel. The format can be specified with the `-f` option.
+This tool supports three student file formats: **sies**, **csv**, and **excel**. The format can be specified with the `-f` option.
 
 ### SIES Format
 
-This is the format generated by the SIES information system (University of Oviedo). It is only used by teachers at this university.
+This format is generated by the SIES information system (University of Oviedo). It is only used by teachers at this university.
 
-The groups are named removing the prefix and any language indication. For example:
+The groups are named by removing the prefix and any language indication. For example:
 - "Prácticas de Laboratorio-01" -> "01"
 - "Prácticas de Laboratorio-Inglés-02" -> "i02"
-
 
 ### CSV Format
 
@@ -128,9 +172,7 @@ This format is exactly the same as the CSV format (two columns, no header row).
 
 ## Groups File Format
 
-Usually, a teacher does not teach all the groups in a course. To filter the output to only include students belonging to the teacher’s groups, create a groups file. Only students in these groups will be included in the output.
-
-> If all the groups are taught by the same teacher, just add all the groups to this file.
+This file contains the groups taught by the teacher. If all the groups are taught by the same teacher, just add all the groups to this file.
 
 The groups file is a simple text file with one group per line. The group names must match those in the students file.
 
@@ -154,9 +196,19 @@ Once you have this file, you can use it with both the `create` and `update` comm
 java -jar roster.jar create -s mygroups.txt -f sies alumnosMatriculados.xls
 ```
 
-If no groups file is provided, the file `schedule.csv` is used by default.
+If no groups file is provided, the name `schedule.csv` is used by default.
+
+## Exit Codes
+
+The exit codes indicate the result of the command execution:
+
+- **0**: No changes proposed. The roster is up to date.
+- **1**: Changes were proposed. The user should review the output and apply the changes manually.
+- **2**: An error occurred.
 
 ## License
 
+See `LICENSE`.
+Copyright (c) 2025 Raul Izquierdo Castanedo
 See `LICENSE`.
 Copyright (c) 2025 Raul Izquierdo Castanedo
