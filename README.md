@@ -120,7 +120,7 @@ Ramírez, Lucía (01) ---> Ramírez, Lucía (02)
 
 ## Usage
 
-The JAR can be downloaded from the [releases page](https://github.com/raul-izquierdo/teams/releases).
+The JAR can be downloaded from the [releases page](https://github.com/raul-izquierdo/roster/releases).
 
 Syntax:
 
