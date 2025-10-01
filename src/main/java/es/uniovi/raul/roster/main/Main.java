@@ -14,12 +14,16 @@ import es.uniovi.raul.roster.loaders.students.*;
 import es.uniovi.raul.roster.model.*;
 
 public class Main {
+    private static final int NO_CHANGES_REQUIRED = 0; // roster is already up to date
+    private static final int CHANGES_REQUIRED = 1; // roster must be manually updated
+    private static final int ERROR = 2;
+
     public static void main(String[] args) {
 
         Optional<Arguments> argumentsOpt = ArgumentsParser.parse(args);
 
         if (argumentsOpt.isEmpty())
-            System.exit(2);
+            System.exit(ERROR);
 
         Arguments arguments = argumentsOpt.get();
 
@@ -36,11 +40,11 @@ public class Main {
 
             boolean changesRequired = printRequiredChanges(roster, System.out);
 
-            System.exit(changesRequired ? 1 : 0); // Exit with 1 if changes proposed, otherwise 0 (roster is up to date)
+            System.exit(changesRequired ? CHANGES_REQUIRED : NO_CHANGES_REQUIRED);
 
         } catch (Exception e) {
             Console.printError(e.getMessage());
-            System.exit(2);
+            System.exit(ERROR);
         }
     }
 
