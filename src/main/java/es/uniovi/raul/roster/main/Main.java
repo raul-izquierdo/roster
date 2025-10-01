@@ -48,6 +48,17 @@ public class Main {
         }
     }
 
+    /**
+     * Loads the students from the given file, removing those that do not belong to the teacher's groups.
+     *
+     * @param studentsFile the path to the students file
+     * @param format the format of the students file
+     * @param groupsFile the path to the file with the teacher groups
+     *
+     * @throws IOException if an I/O error occurs
+     * @throws InvalidStudentFormatException if the students file format is invalid
+     * @throws InvalidGroupFormatException if the groups file format is invalid
+     */
     public static List<Student> loadTeacherStudents(String studentsFile, FileFormat format, String groupsFile)
             throws IOException, InvalidStudentFormatException, InvalidGroupFormatException {
 

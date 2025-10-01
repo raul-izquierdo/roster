@@ -31,26 +31,35 @@ public final class Roster {
         return students.stream();
     }
 
-    public Optional<Roster> getPreviousRoster() {
-        return previousRoster;
-    }
-
     public void setPreviousRoster(Roster previousRoster) {
         this.previousRoster = Optional.ofNullable(previousRoster);
     }
 
+    public Optional<Roster> getPreviousRoster() {
+        return previousRoster;
+    }
+
+    /**
+     * Find the students in the list that are not in the previous roster.
+     */
     public Stream<Student> findStudentsToEnroll() {
         return students.stream()
                 .filter(student -> getPreviousStudents()
                         .noneMatch(previousStudent -> previousStudent.name().equals(student.name())));
     }
 
+    /**
+     * Find the students in the previous roster that are not in the current list.
+     */
     public Stream<Student> findStudentsForRemoval() {
         return getPreviousStudents()
                 .filter(previousStudent -> students.stream()
                         .noneMatch(student -> student.name().equals(previousStudent.name())));
     }
 
+    /**
+     * Find the students that have changed group.
+     */
     public Stream<GroupChange> findGroupChanges() {
         return students.stream()
                 .flatMap(student -> getPreviousStudents()
