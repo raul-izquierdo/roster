@@ -62,7 +62,7 @@ public class Main {
     public static List<Student> loadTeacherStudents(String studentsFile, FileFormat format, String groupsFile)
             throws IOException, InvalidStudentFormatException, InvalidGroupFormatException {
 
-        List<String> teacherGroups = GroupsLoader.load(groupsFile);
+        List<String> teacherGroups = GroupsLoader.loadTeacherGroups(groupsFile);
 
         return StudentsLoader.load(studentsFile, format).stream()
                 .filter(student -> teacherGroups.contains(student.group()))

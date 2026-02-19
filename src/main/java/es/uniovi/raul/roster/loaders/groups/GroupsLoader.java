@@ -12,17 +12,17 @@ import org.apache.commons.csv.*;
  */
 public class GroupsLoader {
 
-    public static List<String> load(String filePath) throws IOException, InvalidGroupFormatException {
+    public static List<String> loadTeacherGroups(String filePath) throws IOException, InvalidGroupFormatException {
 
         try (FileReader reader = new FileReader(filePath)) {
-            return load(reader);
+            return loadTeacherGroups(reader);
 
         } catch (InvalidGroupFormatException e) {
             throw new InvalidGroupFormatException(format("'%s'. %s", filePath, e.getMessage()));
         }
     }
 
-    public static List<String> load(Reader reader) throws IOException, InvalidGroupFormatException {
+    public static List<String> loadTeacherGroups(Reader reader) throws IOException, InvalidGroupFormatException {
 
         // Parse the whole stream with Commons CSV, like CsvLoader does.
         try (CSVParser parser = new CSVParser(reader,

@@ -13,7 +13,7 @@ class GroupsLoaderTest {
 
     private List<String> loadFrom(String content) throws Exception {
         Reader reader = new StringReader(content);
-        return GroupsLoader.load(reader);
+        return GroupsLoader.loadTeacherGroups(reader);
     }
 
     @ParameterizedTest
