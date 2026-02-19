@@ -4,6 +4,9 @@ import java.util.function.Supplier;
 
 import es.uniovi.raul.roster.loaders.students.formats.*;
 
+/**
+ * Factory for supported student file formats. Each format is associated with a supplier that creates the appropriate FormatLoader instance.
+ */
 public enum FileFormat {
 
     EXCEL(ExcelLoader::new),

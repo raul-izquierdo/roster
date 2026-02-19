@@ -4,6 +4,8 @@ import java.util.Optional;
 
 /**
  * Interface for building student objects from different file formats.
+ * <p>
+ * Implements the Builder design pattern.
  */
 public interface StudentBuilder {
     void start();

@@ -34,10 +34,8 @@ public class GroupsLoader {
 
             List<String> groups = new ArrayList<>();
 
-            for (CSVRecord csvRecord : parser) {
-                String group = getValue(csvRecord, 0);
-                groups.add(group);
-            }
+            for (CSVRecord csvRecord : parser)
+                groups.add(getValue(csvRecord, 0));
 
             if (groups.isEmpty())
                 throw new InvalidGroupFormatException("No groups found in the file. Please check the content.");
