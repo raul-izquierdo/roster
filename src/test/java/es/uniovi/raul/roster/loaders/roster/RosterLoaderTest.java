@@ -15,7 +15,7 @@ class RosterLoaderTest {
 
     private List<Student> loadCsv(String content) throws Exception {
         Reader roster = new StringReader(content);
-        return RosterLoader.loadRoster(roster).getStudents().toList();
+        return RosterLoader.loadRoster(roster);
     }
 
     @Test

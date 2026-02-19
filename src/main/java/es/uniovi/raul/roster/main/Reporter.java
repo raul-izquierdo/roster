@@ -3,22 +3,50 @@ package es.uniovi.raul.roster.main;
 import java.io.PrintStream;
 import java.util.List;
 
-import es.uniovi.raul.roster.model.*;
+import es.uniovi.raul.roster.model.Student;
 
+/**
+ * Generates report of required changes between two rosters.
+ * Compares students lists and identifies additions, removals, and group changes.
+ */
 public final class Reporter {
 
-    public static boolean printRequiredChanges(Roster roster, PrintStream printer) {
+    /**
+     * Represents a group change for a student.
+     *
+     * @param old  the student record with the old group
+     * @param updated the student record with the new group
+     */
+    private record GroupChange(Student old, Student updated) {
+    }
 
-        boolean studentsAdded = printStudentsToAdd(roster, printer);
-        boolean studentsRemoved = printStudentsToRemove(roster, printer);
-        boolean studentsChanged = printGroupChanges(roster, printer);
+    /**
+     * Prints required changes comparing the existing roster with the latest students.
+     *
+     * @param existingRoster the list of students currently in GitHub Classroom
+     * @param latestStudents the latest list of students from the university system
+     * @param printer the PrintStream to write the output to
+     * @return true if any changes are required, false otherwise
+     */
+    public static boolean printRequiredChanges(List<Student> existingRoster, List<Student> latestStudents,
+            PrintStream printer) {
+
+        boolean studentsAdded = printStudentsToAdd(existingRoster, latestStudents, printer);
+        boolean studentsRemoved = printStudentsToRemove(existingRoster, latestStudents, printer);
+        boolean studentsChanged = printGroupChanges(existingRoster, latestStudents, printer);
 
         return studentsAdded || studentsRemoved || studentsChanged;
     }
 
-    private static boolean printStudentsToAdd(Roster roster, PrintStream printer) {
+    private static boolean printStudentsToAdd(List<Student> existingRoster, List<Student> latestStudents,
+            PrintStream printer) {
 
-        var studentsToAdd = roster.findStudentsToEnroll()
+        var existingNames = existingRoster.stream()
+                .map(Student::name)
+                .toList();
+
+        var studentsToAdd = latestStudents.stream()
+                .filter(student -> !existingNames.contains(student.name()))
                 .map(Student::rosterId)
                 .toList();
 
@@ -36,9 +64,15 @@ public final class Reporter {
                 studentsToAdd, printer);
     }
 
-    private static boolean printStudentsToRemove(Roster roster, PrintStream printer) {
+    private static boolean printStudentsToRemove(List<Student> existingRoster, List<Student> latestStudents,
+            PrintStream printer) {
 
-        var studentsToRemove = roster.findStudentsForRemoval()
+        var latestNames = latestStudents.stream()
+                .map(Student::name)
+                .toList();
+
+        var studentsToRemove = existingRoster.stream()
+                .filter(student -> !latestNames.contains(student.name()))
                 .map(Student::rosterId)
                 .toList();
 
@@ -56,9 +90,14 @@ public final class Reporter {
                 studentsToRemove, printer);
     }
 
-    private static boolean printGroupChanges(Roster roster, PrintStream printer) {
+    private static boolean printGroupChanges(List<Student> existingRoster, List<Student> latestStudents,
+            PrintStream printer) {
 
-        var groupChanges = roster.findGroupChanges()
+        var groupChanges = latestStudents.stream()
+                .flatMap(latest -> existingRoster.stream()
+                        .filter(existing -> existing.name().equals(latest.name())
+                                && !existing.group().equals(latest.group()))
+                        .map(existing -> new GroupChange(existing, latest)))
                 .map(change -> String.format("%s ---> %s", change.old().rosterId(), change.updated().rosterId()))
                 .toList();
 

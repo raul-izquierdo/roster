@@ -17,7 +17,7 @@ import es.uniovi.raul.roster.naming.NamingStrategy;
  */
 public class RosterLoader {
 
-    public static Roster loadRoster(String rosterFile)
+    public static List<Student> loadRoster(String rosterFile)
             throws IOException, InvalidRosterFormatException {
 
         try (var reader = new java.io.FileReader(rosterFile)) {
@@ -30,7 +30,7 @@ public class RosterLoader {
         }
     }
 
-    public static Roster loadRoster(Reader reader)
+    public static List<Student> loadRoster(Reader reader)
             throws IOException, InvalidRosterFormatException {
 
         List<Student> students = new ArrayList<>();
@@ -57,7 +57,7 @@ public class RosterLoader {
         if (students.isEmpty())
             throw new InvalidRosterFormatException("No students found in the roster file. Please check the content.");
 
-        return new Roster(students);
+        return new ArrayList<>(students);
     }
 
     // Checks that the header is exactly this four columnos (no more, no less): "identifier","github_username","github_id","name"
@@ -91,6 +91,9 @@ public class RosterLoader {
         return Optional.of(value);
     }
 
+    /**
+     * Exception thrown when the roster file format is invalid.
+     */
     public static class InvalidRosterFormatException extends Exception {
         public InvalidRosterFormatException(String message) {
             super(message);

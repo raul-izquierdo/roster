@@ -1,5 +1,6 @@
 package es.uniovi.raul.roster.main;
 
+import static es.uniovi.raul.roster.loaders.roster.RosterLoader.*;
 import static es.uniovi.raul.roster.main.Reporter.*;
 
 import java.io.IOException;
@@ -9,10 +10,13 @@ import es.uniovi.raul.roster.cli.*;
 import es.uniovi.raul.roster.cli.Arguments.CliCommand;
 import es.uniovi.raul.roster.loaders.groups.GroupsLoader;
 import es.uniovi.raul.roster.loaders.groups.GroupsLoader.InvalidGroupFormatException;
-import es.uniovi.raul.roster.loaders.roster.RosterLoader;
 import es.uniovi.raul.roster.loaders.students.*;
-import es.uniovi.raul.roster.model.*;
+import es.uniovi.raul.roster.model.Student;
 
+/**
+ * Entry point for the roster management application.
+ * Processes student rosters and reports required changes for synchronization.
+ */
 public class Main {
     private static final int NO_CHANGES_REQUIRED = 0; // roster is already up to date
     private static final int CHANGES_REQUIRED = 1; // roster must be manually updated
@@ -29,19 +33,19 @@ public class Main {
 
         try {
 
-            var teacherStudents = loadTeacherStudents(arguments.studentsFile, arguments.format, arguments.groupsFile);
+            var latestStudents = loadTeacherStudents(arguments.studentsFile, arguments.format,
+                    arguments.groupsFile);
 
-            if (teacherStudents.isEmpty()) {
+            if (latestStudents.isEmpty()) {
                 Console.printWarning("No students found for the teacher's groups. No roster will be generated.");
                 System.exit(NO_CHANGES_REQUIRED);
             }
 
-            var roster = new Roster(teacherStudents);
+            var existingRoster = (arguments.command == CliCommand.UPDATE)
+                    ? loadRoster(arguments.rosterFile)
+                    : List.<Student>of();
 
-            if (arguments.command == CliCommand.UPDATE)
-                roster.setPreviousRoster(RosterLoader.loadRoster(arguments.rosterFile));
-
-            boolean changesRequired = printRequiredChanges(roster, System.out);
+            boolean changesRequired = printRequiredChanges(existingRoster, latestStudents, System.out);
 
             System.exit(changesRequired ? CHANGES_REQUIRED : NO_CHANGES_REQUIRED);
 
