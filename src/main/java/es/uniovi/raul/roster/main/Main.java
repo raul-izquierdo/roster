@@ -39,7 +39,7 @@ public class Main {
             var roster = new Roster(teacherStudents);
 
             if (arguments.command == CliCommand.UPDATE)
-                roster.setPreviousRoster(RosterLoader.load(arguments.rosterFile));
+                roster.setPreviousRoster(RosterLoader.loadRoster(arguments.rosterFile));
 
             boolean changesRequired = printRequiredChanges(roster, System.out);
 

@@ -17,12 +17,12 @@ import es.uniovi.raul.roster.naming.NamingStrategy;
  */
 public class RosterLoader {
 
-    public static Roster load(String rosterFile)
+    public static Roster loadRoster(String rosterFile)
             throws IOException, InvalidRosterFormatException {
 
         try (var reader = new java.io.FileReader(rosterFile)) {
 
-            return load(reader);
+            return loadRoster(reader);
 
         } catch (InvalidRosterFormatException e) {
             throw new InvalidRosterFormatException(
@@ -30,7 +30,7 @@ public class RosterLoader {
         }
     }
 
-    public static Roster load(Reader reader)
+    public static Roster loadRoster(Reader reader)
             throws IOException, InvalidRosterFormatException {
 
         List<Student> students = new ArrayList<>();
