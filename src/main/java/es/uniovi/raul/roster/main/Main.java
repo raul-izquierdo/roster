@@ -12,6 +12,7 @@ import java.util.*;
 import es.uniovi.raul.roster.cli.*;
 import es.uniovi.raul.roster.cli.Arguments.CliCommand;
 import es.uniovi.raul.roster.loaders.groups.GroupsLoader.InvalidGroupFormatException;
+import es.uniovi.raul.roster.loaders.roster.RosterLoader.InvalidRosterFormatException;
 import es.uniovi.raul.roster.loaders.students.*;
 import es.uniovi.raul.roster.model.Student;
 
@@ -33,29 +34,38 @@ public class Main {
 
         Arguments arguments = argumentsOpt.get();
 
+        int exitCode = NO_CHANGES_REQUIRED;
         try {
 
-            var latestStudents = loadTeacherStudents(arguments.studentsFile, arguments.format,
-                    arguments.groupsFile);
-
-            if (latestStudents.isEmpty()) {
-                System.out.printf("%n[Warning] %s%n",
-                        "No students found for the teacher's groups. No roster will be generated.");
-                System.exit(NO_CHANGES_REQUIRED);
-            }
-
-            var existingRoster = (arguments.command == CliCommand.UPDATE)
-                    ? loadRoster(arguments.rosterFile)
-                    : List.<Student>of();
-
-            boolean changesRequired = printRequiredChanges(existingRoster, latestStudents, System.out);
-
-            System.exit(changesRequired ? CHANGES_REQUIRED : NO_CHANGES_REQUIRED);
+            exitCode = run(arguments);
 
         } catch (Exception e) {
             System.err.printf("%n[Error] %s%n", e.getMessage());
-            System.exit(ERROR);
+            exitCode = ERROR;
         }
+
+        System.exit(exitCode);
+    }
+
+    private static int run(Arguments arguments) throws IOException, InvalidStudentFormatException,
+            InvalidGroupFormatException, InvalidRosterFormatException {
+
+        var latestStudents = loadTeacherStudents(arguments.studentsFile, arguments.format,
+                arguments.groupsFile);
+
+        if (latestStudents.isEmpty()) {
+            System.out.printf("%n[Warning] %s%n",
+                    "No students found for the teacher's groups. No roster will be generated.");
+            return NO_CHANGES_REQUIRED;
+        }
+
+        var existingRoster = (arguments.command == CliCommand.UPDATE)
+                ? loadRoster(arguments.rosterFile)
+                : List.<Student>of();
+
+        boolean changesRequired = printRequiredChanges(existingRoster, latestStudents, System.out);
+
+        return changesRequired ? CHANGES_REQUIRED : NO_CHANGES_REQUIRED;
     }
 
     /**
