@@ -49,7 +49,7 @@ public class ArgumentsParser {
             return Optional.of(arguments);
 
         } catch (ParameterException ex) {
-            Console.printError(ex.getMessage());
+            System.err.printf("%n[Error] %s%n", ex.getMessage());
             picocli.usage(err);
             return Optional.empty();
         }

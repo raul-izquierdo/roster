@@ -4,6 +4,7 @@ import static es.uniovi.raul.roster.loaders.groups.GroupsLoader.*;
 import static es.uniovi.raul.roster.loaders.roster.RosterLoader.*;
 import static es.uniovi.raul.roster.loaders.students.StudentsLoader.*;
 import static es.uniovi.raul.roster.main.Reporter.*;
+import static java.lang.String.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -38,7 +39,8 @@ public class Main {
                     arguments.groupsFile);
 
             if (latestStudents.isEmpty()) {
-                Console.printWarning("No students found for the teacher's groups. No roster will be generated.");
+                System.out.printf("%n[Warning] %s%n",
+                        "No students found for the teacher's groups. No roster will be generated.");
                 System.exit(NO_CHANGES_REQUIRED);
             }
 
@@ -51,7 +53,7 @@ public class Main {
             System.exit(changesRequired ? CHANGES_REQUIRED : NO_CHANGES_REQUIRED);
 
         } catch (Exception e) {
-            Console.printError(e.getMessage());
+            System.err.printf("%n[Error] %s%n", e.getMessage());
             System.exit(ERROR);
         }
     }
@@ -73,16 +75,15 @@ public class Main {
         List<String> teacherGroups = loadTeacherGroups(groupsFile);
 
         List<Student> allStudents = loadStudents(studentsFile, format);
-        System.out.println(
-                String.format("%d students read from '%s' (format: %s).", allStudents.size(), studentsFile, format));
+        System.out.printf("%d students read from '%s' (format: %s).%n", allStudents.size(), studentsFile, format);
 
         List<Student> teacherStudents = allStudents.stream()
                 .filter(student -> teacherGroups.contains(student.group()))
                 .toList();
-        System.out.println(String.format("%d students belong to the teacher's groups read from '%s' (%s)",
+        System.out.printf("%d students belong to the teacher's groups read from '%s' (%s)%n",
                 teacherStudents.size(),
                 groupsFile,
-                String.join(", ", teacherGroups)));
+                String.join(", ", teacherGroups));
 
         return teacherStudents;
     }
