@@ -35,7 +35,7 @@ class StudentsLoaderExcelTest {
 
     private List<Student> loadExcel(byte[] bytes) throws Exception {
         InputStream is = new java.io.ByteArrayInputStream(bytes);
-        return StudentsLoader.load(is, FileFormat.EXCEL);
+        return StudentsLoader.loadStudents(is, FileFormat.EXCEL);
     }
 
     @Test

@@ -18,7 +18,7 @@ class StudentsLoaderCsvTest {
 
     private List<Student> loadCsv(String content) throws Exception {
         InputStream is = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
-        return StudentsLoader.load(is, FileFormat.CSV);
+        return StudentsLoader.loadStudents(is, FileFormat.CSV);
     }
 
     @Test

@@ -28,11 +28,14 @@ public class Main {
         Arguments arguments = argumentsOpt.get();
 
         try {
-            System.out.println(String.format(
-                    "%nProcessing students from file '%s' (format: %s), using groups file '%s'.",
-                    arguments.studentsFile, arguments.format, arguments.groupsFile));
 
             var teacherStudents = loadTeacherStudents(arguments.studentsFile, arguments.format, arguments.groupsFile);
+
+            if (teacherStudents.isEmpty()) {
+                Console.printWarning("No students found for the teacher's groups. No roster will be generated.");
+                System.exit(NO_CHANGES_REQUIRED);
+            }
+
             var roster = new Roster(teacherStudents);
 
             if (arguments.command == CliCommand.UPDATE)
@@ -64,9 +67,19 @@ public class Main {
 
         List<String> teacherGroups = GroupsLoader.loadTeacherGroups(groupsFile);
 
-        return StudentsLoader.load(studentsFile, format).stream()
+        List<Student> allStudents = StudentsLoader.loadStudents(studentsFile, format);
+        System.out.println(
+                String.format("%d students read from '%s' (format: %s).", allStudents.size(), studentsFile, format));
+
+        List<Student> teacherStudents = allStudents.stream()
                 .filter(student -> teacherGroups.contains(student.group()))
                 .toList();
+        System.out.println(String.format("%d students belong to the teacher's groups read from '%s' (%s)",
+                teacherStudents.size(),
+                groupsFile,
+                String.join(", ", teacherGroups)));
+
+        return teacherStudents;
     }
 
 }

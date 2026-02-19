@@ -11,12 +11,12 @@ import es.uniovi.raul.roster.naming.NamingStrategy;
  */
 public class StudentsLoader {
 
-    public static List<Student> load(String fileName, FileFormat format)
+    public static List<Student> loadStudents(String fileName, FileFormat format)
             throws InvalidStudentFormatException, IOException {
 
         try (InputStream inputStream = new FileInputStream(fileName)) {
 
-            return load(inputStream, format);
+            return loadStudents(inputStream, format);
 
         } catch (InvalidStudentFormatException e) {
             throw new InvalidStudentFormatException(String.format(
@@ -25,7 +25,7 @@ public class StudentsLoader {
         }
     }
 
-    public static List<Student> load(InputStream inputStream, FileFormat format)
+    public static List<Student> loadStudents(InputStream inputStream, FileFormat format)
             throws InvalidStudentFormatException, IOException {
 
         FormatLoader loader = format.createFormatLoader();
