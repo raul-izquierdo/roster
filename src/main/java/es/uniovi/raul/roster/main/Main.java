@@ -1,6 +1,8 @@
 package es.uniovi.raul.roster.main;
 
+import static es.uniovi.raul.roster.loaders.groups.GroupsLoader.*;
 import static es.uniovi.raul.roster.loaders.roster.RosterLoader.*;
+import static es.uniovi.raul.roster.loaders.students.StudentsLoader.*;
 import static es.uniovi.raul.roster.main.Reporter.*;
 
 import java.io.IOException;
@@ -8,7 +10,6 @@ import java.util.*;
 
 import es.uniovi.raul.roster.cli.*;
 import es.uniovi.raul.roster.cli.Arguments.CliCommand;
-import es.uniovi.raul.roster.loaders.groups.GroupsLoader;
 import es.uniovi.raul.roster.loaders.groups.GroupsLoader.InvalidGroupFormatException;
 import es.uniovi.raul.roster.loaders.students.*;
 import es.uniovi.raul.roster.model.Student;
@@ -69,9 +70,9 @@ public class Main {
     public static List<Student> loadTeacherStudents(String studentsFile, FileFormat format, String groupsFile)
             throws IOException, InvalidStudentFormatException, InvalidGroupFormatException {
 
-        List<String> teacherGroups = GroupsLoader.loadTeacherGroups(groupsFile);
+        List<String> teacherGroups = loadTeacherGroups(groupsFile);
 
-        List<Student> allStudents = StudentsLoader.loadStudents(studentsFile, format);
+        List<Student> allStudents = loadStudents(studentsFile, format);
         System.out.println(
                 String.format("%d students read from '%s' (format: %s).", allStudents.size(), studentsFile, format));
 

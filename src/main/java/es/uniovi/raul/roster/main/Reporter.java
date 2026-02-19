@@ -1,7 +1,10 @@
 package es.uniovi.raul.roster.main;
 
+import static java.util.stream.Collectors.toMap;
+
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Map;
 
 import es.uniovi.raul.roster.model.Student;
 
@@ -10,15 +13,6 @@ import es.uniovi.raul.roster.model.Student;
  * Compares students lists and identifies additions, removals, and group changes.
  */
 public final class Reporter {
-
-    /**
-     * Represents a group change for a student.
-     *
-     * @param old  the student record with the old group
-     * @param updated the student record with the new group
-     */
-    private record GroupChange(Student old, Student updated) {
-    }
 
     /**
      * Prints required changes comparing the existing roster with the latest students.
@@ -93,12 +87,14 @@ public final class Reporter {
     private static boolean printGroupChanges(List<Student> existingRoster, List<Student> latestStudents,
             PrintStream printer) {
 
+        Map<String, Student> existingStudentMap = existingRoster.stream()
+                .collect(toMap(Student::name, student -> student));
+
         var groupChanges = latestStudents.stream()
-                .flatMap(latest -> existingRoster.stream()
-                        .filter(existing -> existing.name().equals(latest.name())
-                                && !existing.group().equals(latest.group()))
-                        .map(existing -> new GroupChange(existing, latest)))
-                .map(change -> String.format("%s ---> %s", change.old().rosterId(), change.updated().rosterId()))
+                .filter(latestStudent -> hasChangedGroup(existingStudentMap, latestStudent))
+                .map(latestStudent -> String.format("%s ---> %s",
+                        existingStudentMap.get(latestStudent.name()).rosterId(),
+                        latestStudent.rosterId()))
                 .toList();
 
         return printSection(
@@ -114,6 +110,12 @@ public final class Reporter {
                             - Replace the old roster ID with the new one (shown on the right side of the arrow).
                         """,
                 groupChanges, printer);
+    }
+
+    // Returns true if the student exists in the existing roster and has a different group in the latest roster
+    private static boolean hasChangedGroup(Map<String, Student> existingStudentMap, Student latestStudent) {
+        var existing = existingStudentMap.get(latestStudent.name());
+        return existing != null && !existing.group().equals(latestStudent.group());
     }
 
     // returns true if any lines were printed
