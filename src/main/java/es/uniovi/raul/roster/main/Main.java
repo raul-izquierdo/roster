@@ -4,7 +4,6 @@ import static es.uniovi.raul.roster.loaders.groups.GroupsLoader.*;
 import static es.uniovi.raul.roster.loaders.roster.RosterLoader.*;
 import static es.uniovi.raul.roster.loaders.students.StudentsLoader.*;
 import static es.uniovi.raul.roster.main.Reporter.*;
-import static java.lang.String.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -32,12 +31,10 @@ public class Main {
         if (argumentsOpt.isEmpty())
             System.exit(ERROR);
 
-        Arguments arguments = argumentsOpt.get();
-
         int exitCode = NO_CHANGES_REQUIRED;
         try {
 
-            exitCode = run(arguments);
+            exitCode = run(argumentsOpt.get());
 
         } catch (Exception e) {
             System.err.printf("%n[Error] %s%n", e.getMessage());
@@ -61,7 +58,7 @@ public class Main {
 
         var existingRoster = (arguments.command == CliCommand.UPDATE)
                 ? loadRoster(arguments.rosterFile)
-                : List.<Student>of();
+                : Collections.<Student>emptyList();
 
         boolean changesRequired = printRequiredChanges(existingRoster, latestStudents, System.out);
 
