@@ -6,8 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [3.1.1]
+## [3.2.0](https://github.com/raul-izquierdo/roster/compare/v3.1.1...v3.2.0) - 2026/02/20
 
+### Added
+
+- Increased information about read and filtered students, making it easier to identify issues in the roster generation process. For example, it's now easier to see if the correct file was selected by checking the number of processed students.
+
+### Fixed
+
+- Updated link to the GitHub repository in the README file to reflect the new location of the project.
+- Update file permissions for mvnw and run.sh scripts
+
+## [3.1.1]
 
 ### Fixed
 - The exit code for errors was not being returned correctly.
