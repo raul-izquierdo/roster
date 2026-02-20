@@ -5,7 +5,7 @@ import picocli.CommandLine.*;
 
 // CHECKSTYLE:OFF
 
-@Command(name = "roster", version = "3.1.1", showDefaultValues = true, mixinStandardHelpOptions = true, usageHelpAutoWidth = true, description = Messages.DESCRIPTION, customSynopsis = Messages.USAGE, footer = Messages.CREDITS)
+@Command(name = "roster", showDefaultValues = true, mixinStandardHelpOptions = true, usageHelpAutoWidth = true, description = Messages.DESCRIPTION, customSynopsis = Messages.USAGE, footer = Messages.CREDITS, versionProvider = PomVersionReader.class)
 public class Arguments {
 
     public enum CliCommand {
@@ -46,4 +46,10 @@ class Messages {
             Raúl Izquierdo Castanedo (raul@uniovi.es)
             """;
 
+}
+
+class PomVersionReader implements IVersionProvider {
+    public String[] getVersion() throws Exception {
+        return new String[] { Arguments.class.getPackage().getImplementationVersion() };
+    }
 }
