@@ -19,12 +19,8 @@
 
 
     <build>
-        <finalName>${project.name}</finalName>
         <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
-            </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -33,9 +29,11 @@
                     <mainClass>${main.class}</mainClass>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.8.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -50,7 +48,6 @@
                                     <mainClass>${main.class}</mainClass>
                                     <!-- Allows to get the version of the JAR file during runtime -->
                                     <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                    <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
@@ -86,15 +83,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.2</version>
             </plugin>
 
-            <!-- Ensure resources plugin honors skip flag and uses a modern version -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.1</version>
-            </plugin>
         </plugins>
     </build>
 
